@@ -13,6 +13,7 @@
 		289108AF2A07C98500173353 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 289108AD2A07C98500173353 /* Main.storyboard */; };
 		289108B12A07C98600173353 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 289108B02A07C98600173353 /* Assets.xcassets */; };
 		289108B42A07C98600173353 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 289108B22A07C98600173353 /* LaunchScreen.storyboard */; };
+		CAACAAB62A0A0E6E007B90C2 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAACAAB52A0A0E6E007B90C2 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		289108B02A07C98600173353 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		289108B32A07C98600173353 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		289108B52A07C98600173353 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CAACAAB52A0A0E6E007B90C2 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +58,40 @@
 		289108A62A07C98500173353 /* iOS_Assignment3 */ = {
 			isa = PBXGroup;
 			children = (
-				289108A72A07C98500173353 /* AppDelegate.swift */,
+				CAACAAB42A0A0E22007B90C2 /* Model */,
+				CAACAAB32A0A0E1A007B90C2 /* Control */,
+				CAACAAB12A0A0E04007B90C2 /* View */,
 				289108A92A07C98500173353 /* SceneDelegate.swift */,
-				289108AB2A07C98500173353 /* ViewController.swift */,
-				289108AD2A07C98500173353 /* Main.storyboard */,
 				289108B02A07C98600173353 /* Assets.xcassets */,
 				289108B22A07C98600173353 /* LaunchScreen.storyboard */,
 				289108B52A07C98600173353 /* Info.plist */,
+				289108A72A07C98500173353 /* AppDelegate.swift */,
 			);
 			path = iOS_Assignment3;
+			sourceTree = "<group>";
+		};
+		CAACAAB12A0A0E04007B90C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				289108AD2A07C98500173353 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CAACAAB32A0A0E1A007B90C2 /* Control */ = {
+			isa = PBXGroup;
+			children = (
+				289108AB2A07C98500173353 /* ViewController.swift */,
+			);
+			path = Control;
+			sourceTree = "<group>";
+		};
+		CAACAAB42A0A0E22007B90C2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CAACAAB52A0A0E6E007B90C2 /* Model.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +168,7 @@
 				289108AC2A07C98500173353 /* ViewController.swift in Sources */,
 				289108A82A07C98500173353 /* AppDelegate.swift in Sources */,
 				289108AA2A07C98500173353 /* SceneDelegate.swift in Sources */,
+				CAACAAB62A0A0E6E007B90C2 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
