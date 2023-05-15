@@ -13,7 +13,7 @@ class BookingViewController: UIViewController {
     @IBOutlet weak var bookButton: UIButton!
     let timeSlots = ["10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM"]
     var selectedTimeSlot: String?
-    var customers: [Customer] = []
+    static var customers: [Customer] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         bookButton.isEnabled = false
@@ -24,8 +24,8 @@ class BookingViewController: UIViewController {
         bookingTableView.register(UITableViewCell.self, forCellReuseIdentifier: "TimeSlotCell")
         
         // for debug
-        customers.append(Customer(name: "John Doe", phoneNumber: "1234567890", emailAddress: "johndoe@example.com", partySize: 2, timeSlot: "10:00 AM"))
-        customers.append(Customer(name: "Jane Smith", phoneNumber: "9876543210", emailAddress: "janesmith@example.com", partySize: 1, timeSlot: "3:00 PM"))
+        BookingViewController.customers.append(Customer(name: "John Doe", phoneNumber: "1234567890", emailAddress: "johndoe@example.com", partySize: 2, timeSlot: "10:00 AM"))
+        BookingViewController.customers.append(Customer(name: "Jane Smith", phoneNumber: "9876543210", emailAddress: "janesmith@example.com", partySize: 1, timeSlot: "3:00 PM"))
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -34,6 +34,9 @@ class BookingViewController: UIViewController {
             selectedTimeSlot = timeSlots[indexPath.row]
         }
         customerDetailView.timeSlot = selectedTimeSlot!
+    }
+    static public func addCustomer(customer: Customer){
+        self.customers.append(customer)
     }
 
 }
@@ -50,7 +53,7 @@ extension BookingViewController: UITableViewDataSource {
         let timeSlot = timeSlots[indexPath.row]
         
         // Find the customer for this time slot
-        if let customer = customers.first(where: { $0.getTimeSlot() == timeSlot }) {
+        if let customer = BookingViewController.customers.first(where: { $0.getTimeSlot() == timeSlot }) {
             cell.textLabel?.text = "\(customer.getName()) (\(customer.getPartySize())"
         }
         else {
@@ -68,7 +71,7 @@ extension BookingViewController: UITableViewDelegate {
         // Handle booking logic for the selected time slot
         print("Selected time slot: \(selectedTimeSlot)")
         
-        if let selectedCustomer = customers.first(where: { $0.getTimeSlot() == selectedTimeSlot }) {
+        if let selectedCustomer = BookingViewController.customers.first(where: { $0.getTimeSlot() == selectedTimeSlot }) {
                 print("Selected customer: \(selectedCustomer.getName())")
                 bookButton.isEnabled = false
             } else {

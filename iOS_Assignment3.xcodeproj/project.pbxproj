@@ -16,6 +16,8 @@
 		28FB19C32A12DE80006719B5 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19C22A12DE80006719B5 /* Customer.swift */; };
 		28FB19C52A12DF13006719B5 /* BookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19C42A12DF13006719B5 /* BookingViewController.swift */; };
 		28FB19C72A12E82E006719B5 /* CustomerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19C62A12E82E006719B5 /* CustomerDetailViewController.swift */; };
+		28FB19C92A12FBE0006719B5 /* SeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19C82A12FBE0006719B5 /* SeatViewController.swift */; };
+		28FB19CB2A12FC83006719B5 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19CA2A12FC83006719B5 /* ConfirmViewController.swift */; };
 		CAACAAB62A0A0E6E007B90C2 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAACAAB52A0A0E6E007B90C2 /* Model.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +33,8 @@
 		28FB19C22A12DE80006719B5 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		28FB19C42A12DF13006719B5 /* BookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewController.swift; sourceTree = "<group>"; };
 		28FB19C62A12E82E006719B5 /* CustomerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailViewController.swift; sourceTree = "<group>"; };
+		28FB19C82A12FBE0006719B5 /* SeatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatViewController.swift; sourceTree = "<group>"; };
+		28FB19CA2A12FC83006719B5 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
 		CAACAAB52A0A0E6E007B90C2 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +94,8 @@
 				289108AB2A07C98500173353 /* MainPageController.swift */,
 				28FB19C42A12DF13006719B5 /* BookingViewController.swift */,
 				28FB19C62A12E82E006719B5 /* CustomerDetailViewController.swift */,
+				28FB19C82A12FBE0006719B5 /* SeatViewController.swift */,
+				28FB19CA2A12FC83006719B5 /* ConfirmViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -174,6 +180,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28FB19CB2A12FC83006719B5 /* ConfirmViewController.swift in Sources */,
 				28FB19C52A12DF13006719B5 /* BookingViewController.swift in Sources */,
 				289108AC2A07C98500173353 /* MainPageController.swift in Sources */,
 				28FB19C32A12DE80006719B5 /* Customer.swift in Sources */,
@@ -181,6 +188,7 @@
 				289108AA2A07C98500173353 /* SceneDelegate.swift in Sources */,
 				CAACAAB62A0A0E6E007B90C2 /* Model.swift in Sources */,
 				28FB19C72A12E82E006719B5 /* CustomerDetailViewController.swift in Sources */,
+				28FB19C92A12FBE0006719B5 /* SeatViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
