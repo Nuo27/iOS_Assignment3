@@ -33,11 +33,8 @@ class BookingViewController: UIViewController {
         // for debug
         var customer1 = Customer(name: "John Doe", phoneNumber: "1234567890", emailAddress: "johndoe@example.com", partySize: 2, timeSlot: "10:00 AM")
         var customer2 = Customer(name: "Jane Smith", phoneNumber: "9876543210", emailAddress: "janesmith@example.com", partySize: 1, timeSlot: "3:00 PM")
-        BookingViewController.customers.append(customer1)
-        BookingViewController.customers.append(customer2)
         databaseCreateCustomer(customer: customer1)
         databaseCreateCustomer(customer: customer2)
-        databaseDeleteCustomer(customer: customer2)
         fetchDataFromDatabase()
     }
     
@@ -64,7 +61,7 @@ class BookingViewController: UIViewController {
         let context = MySQLQueryContext()
         context.storeCoordinator = coordinator
         MySQLContainer.shared.mainQueryContext = context
-        let insertString = "INSERT INTO customers (name, phoneNumber, emailAddress, partySize, timeSlot) VALUES ('\(name)', '\(phoneNumber)', '\(emailAddress)', \(partySize), '\(timeSlot)');"
+        let insertString = "INSERT INTO customer (name, phoneNumber, emailAddress, partySize, timeSlot) VALUES ('\(name)', '\(phoneNumber)', '\(emailAddress)', \(partySize), '\(timeSlot)');"
         let insertRequest = MySQLQueryRequest(query: insertString)
         
         do {
