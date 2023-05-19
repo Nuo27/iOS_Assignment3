@@ -1,17 +1,17 @@
 # Assignment3 repo
 
 This repository is dedicated to 2023 Autumn Assignment 3 in the course 41889 & 42889 Application Development in the iOS Environment. The assignment focuses on developing an online booking app for restaurants. The GitHub repository link for the project is: https://github.com/Nuo27/iOS_Assignment3
-The requirement of this assignement can be found in the pdf with name Assignment3descirption in root folder.
 
 After submission, the project will be set to public for review and evaluation.
 
 ---
 
-table of contects
+In this repo:
 
 - [Assignment3 repo](#assignment3-repo)
   - [Introduction](#introduction)
   - [Plz notify that](#plz-notify-that)
+  - [Basic Build info](#basic-build-info)
   - [Features](#features)
     - [Customer](#customer)
     - [Staff](#staff)
@@ -33,9 +33,25 @@ The purpose of this assignment is to create a user-friendly app that facilitates
 
 We are using a free online database, this app may not work properly after a long time.
 
+Assignment due date: 2023-05-26
+
+---
+
+## Basic Build info
+
+Xcode 14.3(14E222b)
+
+Deployment: iOS 16.4
+
+Build system: Xcode Build System
+
+Bundle Identifier: au.edu.uts.iOS-Assignment3
+
 ---
 
 ## Features
+
+Target:
 
 #### Customer
 
