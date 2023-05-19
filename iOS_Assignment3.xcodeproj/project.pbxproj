@@ -19,7 +19,21 @@
 		28FB19C92A12FBE0006719B5 /* SeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19C82A12FBE0006719B5 /* SeatViewController.swift */; };
 		28FB19CB2A12FC83006719B5 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19CA2A12FC83006719B5 /* ConfirmViewController.swift */; };
 		CAACAAB62A0A0E6E007B90C2 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAACAAB52A0A0E6E007B90C2 /* Model.swift */; };
+		D01B1A733945C44E30B1EC69 /* Pods_iOS_Assignment3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D54EFD3BF995360EF99B9595 /* Pods_iOS_Assignment3.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		28535B822A13659700A5E273 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		289108A42A07C98500173353 /* iOS_Assignment3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_Assignment3.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -35,7 +49,10 @@
 		28FB19C62A12E82E006719B5 /* CustomerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailViewController.swift; sourceTree = "<group>"; };
 		28FB19C82A12FBE0006719B5 /* SeatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatViewController.swift; sourceTree = "<group>"; };
 		28FB19CA2A12FC83006719B5 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
+		5983A063E80C499E8D6E95D3 /* Pods-iOS_Assignment3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS_Assignment3.release.xcconfig"; path = "Target Support Files/Pods-iOS_Assignment3/Pods-iOS_Assignment3.release.xcconfig"; sourceTree = "<group>"; };
+		99E05D4BBF1DDDA47102A02E /* Pods-iOS_Assignment3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS_Assignment3.debug.xcconfig"; path = "Target Support Files/Pods-iOS_Assignment3/Pods-iOS_Assignment3.debug.xcconfig"; sourceTree = "<group>"; };
 		CAACAAB52A0A0E6E007B90C2 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		D54EFD3BF995360EF99B9595 /* Pods_iOS_Assignment3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_Assignment3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,17 +60,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D01B1A733945C44E30B1EC69 /* Pods_iOS_Assignment3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28535B7E2A13659700A5E273 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D54EFD3BF995360EF99B9595 /* Pods_iOS_Assignment3.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2891089B2A07C98500173353 = {
 			isa = PBXGroup;
 			children = (
 				289108A62A07C98500173353 /* iOS_Assignment3 */,
 				289108A52A07C98500173353 /* Products */,
+				28535B7E2A13659700A5E273 /* Frameworks */,
+				381D8019695D992E4274966D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,6 +106,15 @@
 				289108A72A07C98500173353 /* AppDelegate.swift */,
 			);
 			path = iOS_Assignment3;
+			sourceTree = "<group>";
+		};
+		381D8019695D992E4274966D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				99E05D4BBF1DDDA47102A02E /* Pods-iOS_Assignment3.debug.xcconfig */,
+				5983A063E80C499E8D6E95D3 /* Pods-iOS_Assignment3.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		CAACAAB12A0A0E04007B90C2 /* View */ = {
@@ -116,9 +153,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 289108B82A07C98600173353 /* Build configuration list for PBXNativeTarget "iOS_Assignment3" */;
 			buildPhases = (
+				A12F3F861C4DBF292918E4CC /* [CP] Check Pods Manifest.lock */,
 				289108A02A07C98500173353 /* Sources */,
 				289108A12A07C98500173353 /* Frameworks */,
 				289108A22A07C98500173353 /* Resources */,
+				28535B822A13659700A5E273 /* Embed Frameworks */,
+				686BDEED167F8240916A99F5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -174,6 +214,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		686BDEED167F8240916A99F5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iOS_Assignment3/Pods-iOS_Assignment3-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iOS_Assignment3/Pods-iOS_Assignment3-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iOS_Assignment3/Pods-iOS_Assignment3-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A12F3F861C4DBF292918E4CC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iOS_Assignment3-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		289108A02A07C98500173353 /* Sources */ = {
@@ -330,11 +412,16 @@
 		};
 		289108B92A07C98600173353 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99E05D4BBF1DDDA47102A02E /* Pods-iOS_Assignment3.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OHMySQL/lib/MySQL.xcframework/ios-arm64",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iOS_Assignment3/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -357,11 +444,16 @@
 		};
 		289108BA2A07C98600173353 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5983A063E80C499E8D6E95D3 /* Pods-iOS_Assignment3.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OHMySQL/lib/MySQL.xcframework/ios-arm64",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iOS_Assignment3/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
