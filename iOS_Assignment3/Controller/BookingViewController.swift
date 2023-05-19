@@ -33,8 +33,8 @@ class BookingViewController: UIViewController {
         // for debug
         var customer1 = Customer(name: "John Doe", phoneNumber: "1234567890", emailAddress: "johndoe@example.com", partySize: 2, timeSlot: "10:00 AM")
         var customer2 = Customer(name: "Jane Smith", phoneNumber: "9876543210", emailAddress: "janesmith@example.com", partySize: 1, timeSlot: "3:00 PM")
-        databaseCreateCustomer(customer: customer1)
-        databaseCreateCustomer(customer: customer2)
+//        databaseCreateCustomer(customer: customer1)
+//        databaseCreateCustomer(customer: customer2)
         fetchDataFromDatabase()
     }
     
@@ -51,11 +51,24 @@ class BookingViewController: UIViewController {
             return
         }
         
+        
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
         
         if coordinator.connect() {
             print("Connected successfully")
+        }
+        // Check if the customer already exists in the database
+        let selectString = "SELECT * FROM customer WHERE name = '\(name)' AND phoneNumber = '\(phoneNumber)';"
+        let selectRequest = MySQLQueryRequest(query: selectString )  
+        do {
+            let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
+            if !result.isEmpty {
+                print("Customer already exists in the database.")
+                return
+            }
+        } catch {
+            print("Cannot execute the query.")
         }
         
         let context = MySQLQueryContext()
@@ -89,6 +102,18 @@ class BookingViewController: UIViewController {
         
         // Remove the customer from the local array
         BookingViewController.customers.remove(at: index)
+        // Check if the customer already exists in the database
+        let selectString = "SELECT * FROM customer WHERE name = '\(name)' AND phoneNumber = '\(phoneNumber)';"
+        let selectRequest = MySQLQueryRequest(query: selectString)
+        do {
+            let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
+            if !result.isEmpty {
+                print("Customer already exists in the database.")
+                return
+            }
+        } catch {
+            print("Cannot execute the query.")
+        }
         
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
@@ -129,10 +154,17 @@ class BookingViewController: UIViewController {
         let selectString = "SELECT * FROM customer;"
         let selectRequest = MySQLQueryRequest(query: selectString)
         
-        do {
-            let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
-            //print("\(result)")
-            BookingViewController.customers.removeAll()
+        DispatchQueue.main.async {
+            // Show loading indicator
+            let activityIndicator = UIActivityIndicatorView(style: .medium)
+            activityIndicator.center = self.view.center
+            activityIndicator.startAnimating()
+            self.view.addSubview(activityIndicator)
+            
+            DispatchQueue.global(qos: .userInitiated).async { [weak activityIndicator] in
+                do {
+                    let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
+                    BookingViewController.customers.removeAll()
                     
                     for row in result {
                         if let name = row["name"] as? String,
@@ -141,21 +173,37 @@ class BookingViewController: UIViewController {
                            let partySize = row["partysize"] as? Int,
                            let timeSlot = row["timeslot"] as? String {
                             let customer = Customer(name: name, phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: partySize, timeSlot: timeSlot)
-                            
+        
                             // Add the fetched customer to the local array
                             BookingViewController.addCustomer(customer: customer)
                         }
                     }
                     
                     print("Data fetched from the database.")
-        } catch {
-            print("Cannot execute the query.")
+                    
+                    DispatchQueue.main.async {
+                        // Hide loading indicator
+                        activityIndicator?.stopAnimating()
+                        activityIndicator?.removeFromSuperview()
+                        
+                        self.bookingTableView.reloadData()
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        // Hide loading indicator
+                        activityIndicator?.stopAnimating()
+                        activityIndicator?.removeFromSuperview()
+                        
+                        print("Cannot execute the query.")
+                    }
+                }
+                
+                coordinator.disconnect()
+            }
         }
-        DispatchQueue.main.async {
-            self.bookingTableView.reloadData()
-        }
-        coordinator.disconnect()
     }
+
+
 
 override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let customerDetailView = segue.destination as! CustomerDetailViewController
