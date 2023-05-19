@@ -9,10 +9,11 @@ import UIKit
 import OHMySQL
 class MainPageController: UIViewController {
     let user = MySQLConfiguration(user: "grouphd",password: "grouphd1",serverName: "db4free.net",dbName: "iosgroupass",port: 3306,socket: "/mysql/mysql.sock")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+  
         
         // Testing database functionality
 //        let coordinator = MySQLStoreCoordinator(configuration: user)

@@ -13,6 +13,7 @@ class BookingViewController: UIViewController {
     //UI var
     @IBOutlet weak var bookingTableView: UITableView!
     @IBOutlet weak var bookButton: UIButton!
+    @IBOutlet weak var refreshButton: UIButton!
     
     //var
     let timeSlots = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM","6:00 PM","7:00 PM","8:00 PM","9:00 PM","10:00 PM"]
@@ -29,12 +30,29 @@ class BookingViewController: UIViewController {
         
         // Register table view cell
         bookingTableView.register(UITableViewCell.self, forCellReuseIdentifier: "TimeSlotCell")
-        
+        // add target to the refreshButton
+        refreshButton.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
         // for debug
         var customer1 = Customer(name: "John Doe", phoneNumber: "1234567890", emailAddress: "johndoe@example.com", partySize: 2, timeSlot: "10:00 AM")
         var customer2 = Customer(name: "Jane Smith", phoneNumber: "9876543210", emailAddress: "janesmith@example.com", partySize: 1, timeSlot: "3:00 PM")
 //        databaseCreateCustomer(customer: customer1)
 //        databaseCreateCustomer(customer: customer2)
+        // Show loading indicator
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
+        self.view.addSubview(activityIndicator)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // Call the fetchDataFromDatabase function after a  delay
+            self.fetchDataFromDatabase()
+            
+            // Stop and remove the activity indicator
+            activityIndicator.stopAnimating()
+            activityIndicator.removeFromSuperview()
+        }
+    }
+    @objc func refreshButtonTapped() {
         fetchDataFromDatabase()
     }
     
@@ -140,6 +158,12 @@ class BookingViewController: UIViewController {
     }
 
     func fetchDataFromDatabase() {
+        // Show loading indicator
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
+        self.view.addSubview(activityIndicator)
+
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
         
@@ -154,54 +178,49 @@ class BookingViewController: UIViewController {
         let selectString = "SELECT * FROM customer;"
         let selectRequest = MySQLQueryRequest(query: selectString)
         
-        DispatchQueue.main.async {
-            // Show loading indicator
-            let activityIndicator = UIActivityIndicatorView(style: .medium)
-            activityIndicator.center = self.view.center
-            activityIndicator.startAnimating()
-            self.view.addSubview(activityIndicator)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self, weak activityIndicator] in
+            guard let self = self else { return }
             
-            DispatchQueue.global(qos: .userInitiated).async { [weak activityIndicator] in
-                do {
-                    let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
-                    BookingViewController.customers.removeAll()
-                    
-                    for row in result {
-                        if let name = row["name"] as? String,
-                           let phoneNumber = row["phonenumber"] as? String,
-                           let emailAddress = row["emailaddress"] as? String,
-                           let partySize = row["partysize"] as? Int,
-                           let timeSlot = row["timeslot"] as? String {
-                            let customer = Customer(name: name, phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: partySize, timeSlot: timeSlot)
+            do {
+                let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
+                BookingViewController.customers.removeAll()
+                
+                for row in result {
+                    if let name = row["name"] as? String,
+                       let phoneNumber = row["phonenumber"] as? String,
+                       let emailAddress = row["emailaddress"] as? String,
+                       let partySize = row["partysize"] as? Int,
+                       let timeSlot = row["timeslot"] as? String {
+                        let customer = Customer(name: name, phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: partySize, timeSlot: timeSlot)
         
-                            // Add the fetched customer to the local array
-                            BookingViewController.addCustomer(customer: customer)
-                        }
-                    }
-                    
-                    print("Data fetched from the database.")
-                    
-                    DispatchQueue.main.async {
-                        // Hide loading indicator
-                        activityIndicator?.stopAnimating()
-                        activityIndicator?.removeFromSuperview()
-                        
-                        self.bookingTableView.reloadData()
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        // Hide loading indicator
-                        activityIndicator?.stopAnimating()
-                        activityIndicator?.removeFromSuperview()
-                        
-                        print("Cannot execute the query.")
+                        // Add the fetched customer to the local array
+                        BookingViewController.addCustomer(customer: customer)
                     }
                 }
                 
-                coordinator.disconnect()
+                print("Data fetched from the database.")
+                
+                DispatchQueue.main.async {
+                    // Hide loading indicator
+                    activityIndicator?.stopAnimating()
+                    activityIndicator?.removeFromSuperview()
+                    
+                    self.bookingTableView.reloadData()
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    // Hide loading indicator
+                    activityIndicator?.stopAnimating()
+                    activityIndicator?.removeFromSuperview()
+                    
+                    print("Cannot execute the query.")
+                }
             }
+            
+            coordinator.disconnect()
         }
     }
+
 
 
 

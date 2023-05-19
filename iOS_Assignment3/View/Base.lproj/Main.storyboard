@@ -44,7 +44,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1216" y="-441"/>
+            <point key="canvasLocation" x="-1216.030534351145" y="-441.54929577464793"/>
         </scene>
         <!--Booking View Controller-->
         <scene sceneID="ZKk-tK-3ho">
@@ -75,6 +75,12 @@
                                     <segue destination="4kl-gu-Nd0" kind="show" id="f2J-8F-tNH"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9E-s4-Ib7">
+                                <rect key="frame" x="328" y="121" width="41" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="arrow.clockwise" catalog="system" title=""/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qtl-Sp-cUO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -83,11 +89,12 @@
                     <connections>
                         <outlet property="bookButton" destination="O2i-kd-hZa" id="4TA-9v-tjA"/>
                         <outlet property="bookingTableView" destination="Saf-Jc-ORc" id="93T-sd-pwB"/>
+                        <outlet property="refreshButton" destination="O9E-s4-Ib7" id="B4p-CE-1fn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aPd-aP-Mhs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-439" y="-442"/>
+            <point key="canvasLocation" x="-440.45801526717554" y="-442.25352112676057"/>
         </scene>
         <!--Customer Detail View Controller-->
         <scene sceneID="xla-O2-0Ts">
@@ -275,6 +282,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.clockwise" catalog="system" width="113" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
