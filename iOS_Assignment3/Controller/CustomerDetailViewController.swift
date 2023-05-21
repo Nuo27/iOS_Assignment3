@@ -16,7 +16,6 @@ class CustomerDetailViewController: UIViewController , UITextFieldDelegate{
     var phoneNumber: String = ""
     var emailAddress: String = ""
     var partySize: String = ""
-    var cus: Customer? = nil
     // UI var
     @IBOutlet weak var timeSlotTestLabel: UILabel!
     @IBOutlet weak var firstNameTF: UITextField!
@@ -74,28 +73,35 @@ class CustomerDetailViewController: UIViewController , UITextFieldDelegate{
         let selectedRow = partySizePickerView.selectedRow(inComponent: 0)
         partySize = "\(selectedRow + 1)"
     }
-    func createCustomer() -> Customer? {
-        guard !firstname.isEmpty, !lastname.isEmpty, !phoneNumber.isEmpty, !emailAddress.isEmpty, !partySize.isEmpty else {
-                return nil
-        }
-        return Customer(name: "\(firstname) \(lastname)", phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: Int(partySize) ?? 0, timeSlot: timeSlot)
-    }
     @IBAction func bookButtonTapped(_ sender: UIButton) {
-        if let customer = createCustomer() {
-                cus = customer
-                navigationItem.setHidesBackButton(true, animated: false)
-            } else {
-                let alert = UIAlertController(title: "Error", message: "Please fill in all required fields.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        present(alert, animated: true, completion: nil)
-            }
+        // test case removed
     }
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
+
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let nextView = segue.destination as! SeatViewController
-        nextView.cus = cus
+        guard let nextView = segue.destination as? SeatViewController else {
+         return
+        }
+    
+        if firstname.isEmpty || lastname.isEmpty || phoneNumber.isEmpty || emailAddress.isEmpty || partySize.isEmpty{
+            let alertController = UIAlertController(title: "Missing Information", message: "Please fill in all required fields.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(okAction)
+            present(alertController, animated: true, completion: nil)
+            
+            return
+        }
+        
+        // Assign values to the next view controller's properties
+        nextView.emailAddress = emailAddress
+        nextView.firstname = firstname
+        nextView.lastname = lastname
+        nextView.phoneNumber = phoneNumber
+        nextView.partySize = partySize
+        nextView.timeSlot = timeSlot
     }
 
     

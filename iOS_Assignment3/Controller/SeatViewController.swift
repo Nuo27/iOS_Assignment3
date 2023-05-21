@@ -8,7 +8,12 @@
 import Foundation
 import UIKit
 class SeatViewController: UIViewController {
-    var cus: Customer? = nil
+    var timeSlot: String = ""
+    var firstname: String = ""
+    var lastname: String = ""
+    var phoneNumber: String = ""
+    var emailAddress: String = ""
+    var partySize: String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -18,7 +23,12 @@ class SeatViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let nextView = segue.destination as! ConfirmViewController
-        nextView.cus = cus
+        nextView.timeSlot = timeSlot
+        nextView.firstname = firstname
+        nextView.lastname = lastname
+        nextView.phoneNumber = phoneNumber
+        nextView.emailAddress = emailAddress
+        nextView.partySize = partySize
     }
 
 
