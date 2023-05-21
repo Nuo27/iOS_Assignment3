@@ -17,6 +17,10 @@ class ConfirmViewController: UIViewController {
             
             // Add target action to the confirm button
             confirmBtn.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+            if(cus != nil){
+                print(cus?.getName())
+                print(cus?.getPartySize())
+            }
         }
         
         @objc func confirmButtonTapped() {

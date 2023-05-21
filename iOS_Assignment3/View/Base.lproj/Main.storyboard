@@ -147,16 +147,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Party Size" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M5T-6Z-xmG">
-                                <rect key="frame" x="136" y="451" width="120" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" red="0.23435661199999999" green="0.91884022949999999" blue="0.8597845435" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" red="0.23435661199999999" green="0.91884022949999999" blue="0.8597845435" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Odn-4g-4UT">
-                                <rect key="frame" x="37" y="560" width="126" height="21"/>
+                                <rect key="frame" x="37" y="560" width="284" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -169,17 +161,43 @@
                                 <color key="textColor" systemColor="systemTealColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f3W-hL-SLf">
+                                <rect key="frame" x="149" y="702" width="97" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemTealColor"/>
+                                <color key="tintColor" systemColor="systemYellowColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Cancel">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="24"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="bookButtonTapped:" destination="4kl-gu-Nd0" eventType="touchUpInside" id="G3K-M5-V8v"/>
+                                    <action selector="cancelButtonTapped:" destination="4kl-gu-Nd0" eventType="touchUpInside" id="aAl-Gj-6lY"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Party Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wkJ-YY-WsQ">
+                                <rect key="frame" x="103" y="476" width="77" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YDt-8m-gK7">
+                                <rect key="frame" x="188" y="462" width="106" height="48"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="aD1-wj-ysQ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="A89-FT-muO"/>
                     <connections>
+                        <outlet property="cancelButton" destination="f3W-hL-SLf" id="etF-cx-yjh"/>
                         <outlet property="continueBtn" destination="sb2-np-epz" id="hok-2W-9Jf"/>
                         <outlet property="emailAddressTF" destination="Fh1-C9-pXh" id="dic-r3-yHr"/>
                         <outlet property="firstNameTF" destination="VcS-qV-OXh" id="5aT-iW-fYH"/>
                         <outlet property="lastNameTF" destination="CaL-hw-Ovv" id="cuF-cb-m7s"/>
-                        <outlet property="partySizeTF" destination="M5T-6Z-xmG" id="DlJ-nu-yrQ"/>
+                        <outlet property="partySizePickerView" destination="YDt-8m-gK7" id="3WP-wO-iiT"/>
                         <outlet property="phoneNumberTF" destination="x2R-fY-OAz" id="Gnz-re-VRp"/>
                         <outlet property="timeSlotTestLabel" destination="Odn-4g-4UT" id="Lyn-4a-2tY"/>
                     </connections>

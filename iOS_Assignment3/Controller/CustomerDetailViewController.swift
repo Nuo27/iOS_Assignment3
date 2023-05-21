@@ -23,14 +23,14 @@ class CustomerDetailViewController: UIViewController , UITextFieldDelegate{
     @IBOutlet weak var lastNameTF: UITextField!
     @IBOutlet weak var phoneNumberTF: UITextField!
     @IBOutlet weak var emailAddressTF: UITextField!
-    @IBOutlet weak var partySizeTF: UITextField!
+    @IBOutlet weak var partySizePickerView: UIPickerView!
     @IBOutlet weak var continueBtn: UIButton!
-    
+    @IBOutlet weak var cancelButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        timeSlotTestLabel.text = timeSlot
+        timeSlotTestLabel.text = "Selected timeSlot is : \(timeSlot)"
         //var
        
         // Set text field delegates
@@ -38,14 +38,17 @@ class CustomerDetailViewController: UIViewController , UITextFieldDelegate{
         lastNameTF.delegate = self
         phoneNumberTF.delegate = self
         emailAddressTF.delegate = self
-        partySizeTF.delegate = self
+        //picker delegates
+        partySizePickerView.delegate = self
+        partySizePickerView.dataSource = self
+        
         
         // Add target actions for text field changes
         firstNameTF.addTarget(self, action: #selector(firstNameChanged), for: .editingChanged)
         lastNameTF.addTarget(self, action: #selector(lastNameChanged), for: .editingChanged)
         phoneNumberTF.addTarget(self, action: #selector(phoneNumberChanged), for: .editingChanged)
         emailAddressTF.addTarget(self, action: #selector(emailAddressChanged), for: .editingChanged)
-        partySizeTF.addTarget(self, action: #selector(partySizeChanged), for: .editingChanged)
+        
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
             textField.text = ""
@@ -68,19 +71,27 @@ class CustomerDetailViewController: UIViewController , UITextFieldDelegate{
     }
     
     @objc func partySizeChanged() {
-        partySize = partySizeTF.text ?? ""
+        let selectedRow = partySizePickerView.selectedRow(inComponent: 0)
+        partySize = "\(selectedRow + 1)"
     }
-    func createCustomer() -> Customer {
-            return Customer(name: "\(firstname) \(lastname)", phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: Int(partySize) ?? 0, timeSlot: timeSlot)
+    func createCustomer() -> Customer? {
+        guard !firstname.isEmpty, !lastname.isEmpty, !phoneNumber.isEmpty, !emailAddress.isEmpty, !partySize.isEmpty else {
+                return nil
         }
+        return Customer(name: "\(firstname) \(lastname)", phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: Int(partySize) ?? 0, timeSlot: timeSlot)
+    }
     @IBAction func bookButtonTapped(_ sender: UIButton) {
-        cus = createCustomer()
-        navigationItem.setHidesBackButton(true, animated: false)
-        //for debug
-//        BookingViewController.addCustomer(customer: createCustomer())
-//        if let navigationController = self.navigationController {
-//            navigationController.popToRootViewController(animated: true)
-//        }
+        if let customer = createCustomer() {
+                cus = customer
+                navigationItem.setHidesBackButton(true, animated: false)
+            } else {
+                let alert = UIAlertController(title: "Error", message: "Please fill in all required fields.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        present(alert, animated: true, completion: nil)
+            }
+    }
+    @IBAction func cancelButtonTapped(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let nextView = segue.destination as! SeatViewController
@@ -89,4 +100,23 @@ class CustomerDetailViewController: UIViewController , UITextFieldDelegate{
 
     
     
+}
+extension CustomerDetailViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        // Return the number of options you want in the picker view
+        return 15
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        // Return the title for each row in the picker view
+        return "\(row + 1)"
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        partySize = "\(row + 1)"
+    }
 }
