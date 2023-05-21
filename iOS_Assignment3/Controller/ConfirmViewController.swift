@@ -15,6 +15,13 @@ class ConfirmViewController: UIViewController {
     var phoneNumber: String = ""
     var emailAddress: String = ""
     var partySize: String = ""
+    
+
+    @IBOutlet weak var timeSlotLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var phoneNumberLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var partySizeLabel: UILabel!
     @IBOutlet weak var confirmBtn: UIButton!
     override func viewDidLoad() {
             super.viewDidLoad()
@@ -22,6 +29,13 @@ class ConfirmViewController: UIViewController {
             
             // Add target action to the confirm button
             confirmBtn.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+        
+            // display
+            timeSlotLabel.text = "Time Slot: \(timeSlot)"
+            nameLabel.text = "Name: \(firstname) \(lastname)"
+            phoneNumberLabel.text = "Phone Number: \(phoneNumber)"
+            emailLabel.text = "Email: \(emailAddress)"
+            partySizeLabel.text = "Party Size: \(partySize)"
         }
         
     @objc func confirmButtonTapped() {
@@ -31,12 +45,12 @@ class ConfirmViewController: UIViewController {
                 navigationController?.popToRootViewController(animated: true)
             } else {
                 // print out all var
-                print(timeSlot)
-                print(firstname)
-                print(lastname)
-                print(phoneNumber)
-                print(emailAddress)
-                print(partySize)
+//                print(timeSlot)
+//                print(firstname)
+//                print(lastname)
+//                print(phoneNumber)
+//                print(emailAddress)
+//                print(partySize)
                 // show alert
                 let alert = UIAlertController(title: "Error", message: "Please fill in all the fields", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
