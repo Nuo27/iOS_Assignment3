@@ -9,6 +9,7 @@ import OHMySQL
 import UIKit
 
 class MainPageController: UIViewController {
+    // var
     var isAdmin: Bool = false
     var adminName: String = "admin"
     var adminPass: String = "admin"
@@ -17,6 +18,15 @@ class MainPageController: UIViewController {
     
     //ui
     @IBOutlet weak var welcomeMessage: UILabel!
+    @IBOutlet weak var UDRIDMessage: UILabel!
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Call your function here
+        updateWelcomeMessage()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         isAdmin = false
@@ -68,6 +78,17 @@ class MainPageController: UIViewController {
         //        }
         //        coordinator.disconnect()
         //
+    }
+    func retrieveGuestRIDFromUserDefault() -> [Int]? {
+        return UserDefaults.standard.array(forKey: "rid") as? [Int] ?? []
+    }
+
+    @IBAction func printRID(){
+        UDRIDMessage.text = "UserDefault RID is: \(retrieveGuestRIDFromUserDefault() ?? [])"
+    }
+    @IBAction func clearRID(){
+        UserDefaults.standard.removeObject(forKey: "rid")
+        UserDefaults.standard.synchronize()
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        let bookingView = segue.destination as! BookingViewController
@@ -174,10 +195,11 @@ class MainPageController: UIViewController {
     
     func showEditAccountWindow() {
         let editAccountAlert = UIAlertController(
-            title: "Edit Account", message: "Edit your account name and password", preferredStyle: .alert)
+            title: "Edit Account", message: "Hi, \(self.adminName). Please Edit your account name and password", preferredStyle: .alert)
         
         editAccountAlert.addTextField { (textField) in
             textField.placeholder = "New Account Name"
+            textField.text = self.adminName
         }
         
         editAccountAlert.addTextField { (textField) in

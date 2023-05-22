@@ -18,6 +18,9 @@ class ConfirmViewController: UIViewController {
     var phoneNumber: String = ""
     var emailAddress: String = ""
     var partySize: String = ""
+    private let user = MySQLConfiguration(
+        user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
+        port: 3306, socket: "/mysql/mysql.sock")
 
     // ui
     @IBOutlet weak var dateLabel: UILabel!
@@ -70,9 +73,6 @@ class ConfirmViewController: UIViewController {
         let partySize = "\(customer.getPartySize())"
         let timeSlot = customer.getTimeSlot()
         let date = customer.getDate()
-        let user = MySQLConfiguration(
-            user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
-            port: 3306, socket: "/mysql/mysql.sock")
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
         if coordinator.connect() {
@@ -86,9 +86,14 @@ class ConfirmViewController: UIViewController {
         let insertRequest = MySQLQueryRequest(query: insertString)
         do {
             try MySQLContainer.shared.mainQueryContext?.execute(insertRequest)
+            let rid = MySQLContainer.shared.mainQueryContext?.lastInsertID().intValue
             BookingViewController.addCustomer(customer: customer)
             MainPageController.currentCustomer = customer
             print("Customer inserted into the database.")
+            
+            var existingArray = UserDefaults.standard.array(forKey: "rid") as? [Int] ?? []
+            existingArray.append(rid!)
+            UserDefaults.standard.set(existingArray, forKey: "rid")
             coordinator.disconnect()
             return true
         } catch {
@@ -97,6 +102,7 @@ class ConfirmViewController: UIViewController {
             return false
         }
     }
+
     func createCustomer() -> Customer? {
         guard !firstname.isEmpty, !lastname.isEmpty, !phoneNumber.isEmpty, !emailAddress.isEmpty,
               !partySize.isEmpty
