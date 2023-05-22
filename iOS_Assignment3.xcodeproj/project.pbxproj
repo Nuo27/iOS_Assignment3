@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28457E062A1BB35900FE11B1 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28457E052A1BB35900FE11B1 /* DateViewController.swift */; };
 		289108A82A07C98500173353 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289108A72A07C98500173353 /* AppDelegate.swift */; };
 		289108AA2A07C98500173353 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289108A92A07C98500173353 /* SceneDelegate.swift */; };
 		289108AC2A07C98500173353 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289108AB2A07C98500173353 /* MainPageController.swift */; };
@@ -16,7 +17,6 @@
 		28FB19C32A12DE80006719B5 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19C22A12DE80006719B5 /* Customer.swift */; };
 		28FB19C52A12DF13006719B5 /* BookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19C42A12DF13006719B5 /* BookingViewController.swift */; };
 		28FB19C72A12E82E006719B5 /* CustomerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19C62A12E82E006719B5 /* CustomerDetailViewController.swift */; };
-		28FB19C92A12FBE0006719B5 /* SeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19C82A12FBE0006719B5 /* SeatViewController.swift */; };
 		28FB19CB2A12FC83006719B5 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB19CA2A12FC83006719B5 /* ConfirmViewController.swift */; };
 		CAACAAB62A0A0E6E007B90C2 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAACAAB52A0A0E6E007B90C2 /* Model.swift */; };
 		D01B1A733945C44E30B1EC69 /* Pods_iOS_Assignment3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D54EFD3BF995360EF99B9595 /* Pods_iOS_Assignment3.framework */; };
@@ -36,6 +36,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		28457E052A1BB35900FE11B1 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
 		289108A42A07C98500173353 /* iOS_Assignment3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_Assignment3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		289108A72A07C98500173353 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		289108A92A07C98500173353 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,7 +48,6 @@
 		28FB19C22A12DE80006719B5 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		28FB19C42A12DF13006719B5 /* BookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewController.swift; sourceTree = "<group>"; };
 		28FB19C62A12E82E006719B5 /* CustomerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailViewController.swift; sourceTree = "<group>"; };
-		28FB19C82A12FBE0006719B5 /* SeatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatViewController.swift; sourceTree = "<group>"; };
 		28FB19CA2A12FC83006719B5 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
 		5983A063E80C499E8D6E95D3 /* Pods-iOS_Assignment3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS_Assignment3.release.xcconfig"; path = "Target Support Files/Pods-iOS_Assignment3/Pods-iOS_Assignment3.release.xcconfig"; sourceTree = "<group>"; };
 		99E05D4BBF1DDDA47102A02E /* Pods-iOS_Assignment3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS_Assignment3.debug.xcconfig"; path = "Target Support Files/Pods-iOS_Assignment3/Pods-iOS_Assignment3.debug.xcconfig"; sourceTree = "<group>"; };
@@ -131,8 +131,8 @@
 				289108AB2A07C98500173353 /* MainPageController.swift */,
 				28FB19C42A12DF13006719B5 /* BookingViewController.swift */,
 				28FB19C62A12E82E006719B5 /* CustomerDetailViewController.swift */,
-				28FB19C82A12FBE0006719B5 /* SeatViewController.swift */,
 				28FB19CA2A12FC83006719B5 /* ConfirmViewController.swift */,
+				28457E052A1BB35900FE11B1 /* DateViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -269,8 +269,8 @@
 				289108A82A07C98500173353 /* AppDelegate.swift in Sources */,
 				289108AA2A07C98500173353 /* SceneDelegate.swift in Sources */,
 				CAACAAB62A0A0E6E007B90C2 /* Model.swift in Sources */,
+				28457E062A1BB35900FE11B1 /* DateViewController.swift in Sources */,
 				28FB19C72A12E82E006719B5 /* CustomerDetailViewController.swift in Sources */,
-				28FB19C92A12FBE0006719B5 /* SeatViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

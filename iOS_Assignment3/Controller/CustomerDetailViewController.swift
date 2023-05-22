@@ -118,7 +118,7 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let nextView = segue.destination as? SeatViewController else {
+        guard let nextView = segue.destination as? ConfirmViewController else {
             return
         }
         
@@ -152,7 +152,7 @@ extension CustomerDetailViewController: UIPickerViewDelegate, UIPickerViewDataSo
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         // Return the number of options you want in the picker view
-        return 15
+        return 10
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int)

@@ -246,6 +246,7 @@ extension BookingViewController: UITableViewDataSource {
             cell.textLabel?.textColor = .systemGray
         } else {
             cell.textLabel?.text = "\(timeSlot): available"  // Display "Time slot: available" if no customer is assigned
+            cell.textLabel?.textColor = .black
         }
         
         return cell

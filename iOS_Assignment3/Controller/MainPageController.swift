@@ -9,9 +9,6 @@ import OHMySQL
 import UIKit
 
 class MainPageController: UIViewController {
-    let user = MySQLConfiguration(
-        user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
-        port: 3306, socket: "/mysql/mysql.sock")
     var isAdmin: Bool = false
     var adminName: String = "admin"
     var adminPass: String = "admin"
@@ -73,10 +70,11 @@ class MainPageController: UIViewController {
         //
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let bookingView = segue.destination as! BookingViewController
-        bookingView.isAdmin = isAdmin
-        //bookingView.user = user
+//        let bookingView = segue.destination as! BookingViewController
+//        bookingView.isAdmin = isAdmin
+//        //bookingView.user = user
     }
+
     @IBAction func loginButtonTapped(_ sender: UIButton) {
         if isAdmin {
             showAccountManagementWindow()
