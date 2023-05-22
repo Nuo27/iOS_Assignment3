@@ -17,6 +17,7 @@ class BookingViewController: UIViewController {
     @IBOutlet weak var refreshButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     //var
+    var mostPartySize: Int = 0
     var isAdmin: Bool = false
     let timeSlots = [
         "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM",
@@ -68,7 +69,7 @@ class BookingViewController: UIViewController {
             activityIndicator.removeFromSuperview()
         }
         
-        print(isAdmin)
+        print(mostPartySize)
     }
     @objc func refreshButtonTapped() {
         fetchDataFromDatabase()
@@ -180,11 +181,12 @@ class BookingViewController: UIViewController {
                        let phoneNumber = row["phonenumber"] as? String,
                        let emailAddress = row["emailaddress"] as? String,
                        let partySize = row["partysize"] as? Int,
-                       let timeSlot = row["timeslot"] as? String
+                       let timeSlot = row["timeslot"] as? String,
+                       let date = row["date"] as? String
                     {
                         let customer = Customer(
                             name: name, phoneNumber: phoneNumber, emailAddress: emailAddress,
-                            partySize: partySize, timeSlot: timeSlot)
+                            partySize: partySize, timeSlot: timeSlot, date: date )
                         
                         // Add the fetched customer to the local array
                         BookingViewController.addCustomer(customer: customer)

@@ -16,6 +16,8 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     var phoneNumber: String = ""
     var emailAddress: String = ""
     var partySize: String = "1"
+    var selectedDate: String = ""
+    var mostPartySize: Int = 0
     // UI var
     @IBOutlet weak var timeSlotTestLabel: UILabel!
     @IBOutlet weak var firstNameTF: UITextField!
@@ -29,9 +31,11 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        timeSlotTestLabel.text = "Selected timeSlot is : \(timeSlot)"
+        timeSlotTestLabel.text = "Selecting \(timeSlot) on \(self.selectedDate)"
         //var
-        
+        if(mostPartySize > 10){
+            mostPartySize = 10
+        }
         // Set text field delegates
         firstNameTF.delegate = self
         lastNameTF.delegate = self
@@ -47,12 +51,12 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
         phoneNumberTF.addTarget(self, action: #selector(phoneNumberChanged), for: .editingChanged)
         emailAddressTF.addTarget(self, action: #selector(emailAddressChanged), for: .editingChanged)
         // vaild check
-        phoneNumberTF.addTarget(self, action: #selector(validateInputs), for: .editingDidEnd)
-        emailAddressTF.addTarget(self, action: #selector(validateInputs), for: .editingDidEnd)
+        phoneNumberTF.addTarget(self, action: #selector(validatePhoneInput), for: .editingDidEnd)
+        emailAddressTF.addTarget(self, action: #selector(validateEmailInput), for: .editingDidEnd)
     
         
     }
-    @objc func validateInputs() {
+    @objc func validatePhoneInput() {
         let phoneNumberWithoutSpaces = phoneNumber.replacingOccurrences(of: " ", with: "")
         let phoneNumberDigits = phoneNumberWithoutSpaces.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         
@@ -62,7 +66,8 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
                       message: "Please enter a 10-digit phone number.")
             return
         }
-
+    }
+    @objc func validateEmailInput(){
         // Validate email address format
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
@@ -134,7 +139,8 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
             
             return
         }
-        validateInputs()
+        validatePhoneInput()
+        validateEmailInput()
         // Assign values to the next view controller's properties
         nextView.emailAddress = emailAddress
         nextView.firstname = firstname
@@ -142,6 +148,7 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
         nextView.phoneNumber = phoneNumber
         nextView.partySize = partySize
         nextView.timeSlot = timeSlot
+        nextView.selectedDate = selectedDate
     }
     
 }
@@ -152,7 +159,7 @@ extension CustomerDetailViewController: UIPickerViewDelegate, UIPickerViewDataSo
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         // Return the number of options you want in the picker view
-        return 10
+        return mostPartySize
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int)

@@ -10,24 +10,32 @@ import OHMySQL
 import UIKit
 
 class ConfirmViewController: UIViewController {
+    // var
+    var selectedDate: String = ""
     var timeSlot: String = ""
     var firstname: String = ""
     var lastname: String = ""
     var phoneNumber: String = ""
     var emailAddress: String = ""
     var partySize: String = ""
+
+    // ui
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var timeSlotLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var phoneNumberLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var partySizeLabel: UILabel!
     @IBOutlet weak var confirmBtn: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         // Add target action to the confirm button
         confirmBtn.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         // display
+        dateLabel.text = "Date: \(selectedDate)"
         timeSlotLabel.text = "Time Slot: \(timeSlot)"
         nameLabel.text = "Name: \(firstname) \(lastname)"
         phoneNumberLabel.text = "Phone Number: \(phoneNumber)"
@@ -61,6 +69,7 @@ class ConfirmViewController: UIViewController {
         let emailAddress = customer.getEmailAddress()
         let partySize = "\(customer.getPartySize())"
         let timeSlot = customer.getTimeSlot()
+        let date = customer.getDate()
         let user = MySQLConfiguration(
             user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
             port: 3306, socket: "/mysql/mysql.sock")
@@ -73,7 +82,7 @@ class ConfirmViewController: UIViewController {
         context.storeCoordinator = coordinator
         MySQLContainer.shared.mainQueryContext = context
         let insertString =
-        "INSERT INTO customer (name, phoneNumber, emailAddress, partySize, timeSlot) VALUES ('\(name)', '\(phoneNumber)', '\(emailAddress)', \(partySize), '\(timeSlot)');"
+        "INSERT INTO customer (name, phoneNumber, emailAddress, partySize, timeSlot, date) VALUES ('\(name)', '\(phoneNumber)', '\(emailAddress)', \(partySize), '\(timeSlot)', '\(date)');"
         let insertRequest = MySQLQueryRequest(query: insertString)
         do {
             try MySQLContainer.shared.mainQueryContext?.execute(insertRequest)
@@ -96,7 +105,7 @@ class ConfirmViewController: UIViewController {
         }
         return Customer(
             name: "\(firstname) \(lastname)", phoneNumber: phoneNumber, emailAddress: emailAddress,
-            partySize: Int(partySize) ?? 0, timeSlot: timeSlot)
+            partySize: Int(partySize) ?? 0, timeSlot: timeSlot, date: selectedDate)
     }
 }
 

@@ -13,13 +13,15 @@ class Customer {
     private var emailAddress: String
     private var partySize: Int
     private var timeSlot: String
+    private var date: String
     
-    init(name: String, phoneNumber: String, emailAddress: String, partySize: Int, timeSlot: String) {
+    init(name: String, phoneNumber: String, emailAddress: String, partySize: Int, timeSlot: String, date: String) {
         self.name = name
         self.phoneNumber = phoneNumber
         self.emailAddress = emailAddress
         self.partySize = partySize
         self.timeSlot = timeSlot
+        self.date = date
     }
     
     // Getter methods
@@ -40,6 +42,9 @@ class Customer {
     func getTimeSlot() -> String{
         return timeSlot
     }
+    func getDate() -> String{
+        return date
+    }
     
     // Setter methods
     func setName(name: String) {
@@ -59,13 +64,8 @@ class Customer {
     func setTimeSlot(timeSlot: String){
         self.timeSlot = timeSlot
     }
-    
-    
-    func displayInformation() {
-        print("Name: \(name)")
-        print("Phone Number: \(phoneNumber)")
-        print("Email Address: \(emailAddress)")
-        print("PartySize: \(partySize)")
+    func setDate(date: String){
+        self.date = date
     }
 }
 

@@ -13,7 +13,7 @@ class MainPageController: UIViewController {
     var adminName: String = "admin"
     var adminPass: String = "admin"
     static var currentCustomer = Customer(
-        name: "Guest", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "")
+        name: "Guest", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
     
     //ui
     @IBOutlet weak var welcomeMessage: UILabel!

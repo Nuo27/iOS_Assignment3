@@ -19,6 +19,7 @@ class DateViewController: UIViewController {
     
     // var
     var currentTotalPartySize: Int = 0
+    var mostAvailableSeats: Int = 0
     let user = MySQLConfiguration(
         user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
         port: 3306, socket: "/mysql/mysql.sock")
@@ -27,6 +28,7 @@ class DateViewController: UIViewController {
             timeSlotButton.setTitle(selectedTimeSlot ?? "Select Time", for: .normal)
         }
     }
+    var isAvailable = false
     var selectedDate: String = ""
     let timeSlots = [
         "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM",
@@ -35,7 +37,13 @@ class DateViewController: UIViewController {
     let timeSlotsCapacity = 30
     override func viewDidLoad() {
         super.viewDidLoad()
+        // var
         selectedTimeSlot = nil
+        bookButton.isEnabled = false
+        
+        // title
+        bookButton.setTitle("Book", for: .normal)
+        checkAvailbilityButton.setTitle("Check", for: .normal)
         // set up target
         timeSlotButton.addTarget(self, action: #selector(timeSlotButtonTapped), for: .touchUpInside)
         datePicker.addTarget(self, action: #selector(dateValueChanged(_:)), for: .valueChanged)
@@ -50,9 +58,20 @@ class DateViewController: UIViewController {
         selectedDate = getLocalDate(date: sender.date)
     }
     @objc func checkButtonTapped() {
+        view.isUserInteractionEnabled = false
         getSumPartySizeFromDB(date: selectedDate, timeSlot: selectedTimeSlot!) { totalPartySize in
             print("Total party size: \(totalPartySize)")
-            self.messageLabel.text = "Selecting \(self.selectedTimeSlot!) on \(self.selectedDate), \(self.timeSlotsCapacity-totalPartySize) seats are available. "
+            self.mostAvailableSeats = self.timeSlotsCapacity-totalPartySize
+            self.messageLabel.text = "Selecting \(self.selectedTimeSlot!) on \(self.selectedDate), \(self.mostAvailableSeats) seats are available."
+            if(self.mostAvailableSeats > 0){
+                self.isAvailable = true
+                self.bookButton.isEnabled = true
+            }
+            else{
+                self.isAvailable = false
+                self.mostAvailableSeats = 0
+                self.bookButton.isEnabled = false
+            }
         }
     }
     @objc func timeSlotButtonTapped() {
@@ -129,6 +148,7 @@ class DateViewController: UIViewController {
                         
                         // Call the completion handler with the fetched result
                         completion(totalPartySizeForTimeSlot)
+                        self.view.isUserInteractionEnabled = true
                     }
                 } catch {
                     DispatchQueue.main.async {
@@ -140,17 +160,27 @@ class DateViewController: UIViewController {
                         
                         // Call the completion handler with a default value or error indicator
                         completion(0)
+                        self.view.isUserInteractionEnabled = true
                     }
                 }
                 
                 coordinator.disconnect()
+                
             }
         } else {
             print("Failed to connect to the database.")
             
             // Call the completion handler with a default value or error indicator
             completion(0)
+            view.isUserInteractionEnabled = true
         }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let customerDetailView = segue.destination as! CustomerDetailViewController
+        customerDetailView.mostPartySize = mostAvailableSeats
+        customerDetailView.timeSlot = selectedTimeSlot!
+        customerDetailView.selectedDate = selectedDate
+        
     }
 
 
