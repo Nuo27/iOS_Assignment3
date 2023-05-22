@@ -12,6 +12,7 @@ class MainPageController: UIViewController {
     var isAdmin: Bool = false
     var adminName: String = "admin"
     var adminPass: String = "admin"
+    var currentCustomer = Customer(name: "Guest", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "")
     
     //ui
     @IBOutlet weak var welcomeMessage:UILabel!
@@ -84,7 +85,7 @@ class MainPageController: UIViewController {
             if isAdmin {
                 welcomeMessage.text = "Welcome! Admin"
             } else {
-                welcomeMessage.text = "Welcome! Customer"
+                welcomeMessage.text = "Welcome! \(currentCustomer.getName())"
             }
         }
         

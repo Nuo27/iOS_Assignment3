@@ -41,8 +41,11 @@ class ConfirmViewController: UIViewController {
     @objc func confirmButtonTapped() {
         let bookingViewController = BookingViewController()
         if let customer = createCustomer() {
-            bookingViewController.databaseCreateCustomer(customer: customer)
+            
+            if(bookingViewController.databaseCreateCustomer(customer: customer)){
                 navigationController?.popToRootViewController(animated: true)
+            }
+                
             } else {
                 // print out all var
 //                print(timeSlot)

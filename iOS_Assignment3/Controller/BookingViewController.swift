@@ -59,7 +59,7 @@ class BookingViewController: UIViewController {
         fetchDataFromDatabase()
     }
     
-    func databaseCreateCustomer(customer: Customer) {
+    func databaseCreateCustomer(customer: Customer) -> Bool {
         let name = customer.getName()
         let phoneNumber = customer.getPhoneNumber()
         let emailAddress = customer.getEmailAddress()
@@ -69,9 +69,8 @@ class BookingViewController: UIViewController {
         // Check if the customer already exists in the local array
         if BookingViewController.customers.contains(where: { $0.getName() == name && $0.getPhoneNumber() == phoneNumber }) {
             print("Customer already exists locally.")
-            return
+            return false
         }
-        
         
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
@@ -79,22 +78,26 @@ class BookingViewController: UIViewController {
         if coordinator.connect() {
             print("Connected successfully")
         }
+        
         // Check if the customer already exists in the database
         let selectString = "SELECT * FROM customer WHERE name = '\(name)' AND phoneNumber = '\(phoneNumber)';"
-        let selectRequest = MySQLQueryRequest(query: selectString )  
+        let selectRequest = MySQLQueryRequest(query: selectString)
+        
         do {
             let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
             if !result.isEmpty {
                 print("Customer already exists in the database.")
-                return
+                return false
             }
         } catch {
             print("Cannot execute the query.")
+            return false
         }
         
         let context = MySQLQueryContext()
         context.storeCoordinator = coordinator
         MySQLContainer.shared.mainQueryContext = context
+        
         let insertString = "INSERT INTO customer (name, phoneNumber, emailAddress, partySize, timeSlot) VALUES ('\(name)', '\(phoneNumber)', '\(emailAddress)', \(partySize), '\(timeSlot)');"
         let insertRequest = MySQLQueryRequest(query: insertString)
         
@@ -105,35 +108,41 @@ class BookingViewController: UIViewController {
             BookingViewController.addCustomer(customer: customer)
             
             print("Customer created and added to the database.")
+            coordinator.disconnect()
+            return true
         } catch {
             print("Cannot execute the query.")
+            coordinator.disconnect()
+            return false
         }
-        
-        coordinator.disconnect()
     }
-    func databaseDeleteCustomer(customer: Customer) {
+
+    func databaseDeleteCustomer(customer: Customer) -> Bool {
         let name = customer.getName()
         let phoneNumber = customer.getPhoneNumber()
 
         // Check if the customer exists in the local array
         guard let index = BookingViewController.customers.firstIndex(where: { $0.getName() == name && $0.getPhoneNumber() == phoneNumber }) else {
             print("Customer does not exist locally.")
-            return
+            return false
         }
         
         // Remove the customer from the local array
         BookingViewController.customers.remove(at: index)
+        
         // Check if the customer already exists in the database
         let selectString = "SELECT * FROM customer WHERE name = '\(name)' AND phoneNumber = '\(phoneNumber)';"
         let selectRequest = MySQLQueryRequest(query: selectString)
+        
         do {
             let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
             if !result.isEmpty {
                 print("Customer already exists in the database.")
-                return
+                return false
             }
         } catch {
             print("Cannot execute the query.")
+            return false
         }
         
         let coordinator = MySQLStoreCoordinator(configuration: user)
@@ -153,12 +162,15 @@ class BookingViewController: UIViewController {
         do {
             try MySQLContainer.shared.mainQueryContext?.execute(deleteRequest)
             print("Customer deleted from the database.")
+            coordinator.disconnect()
+            return true
         } catch {
             print("Cannot execute the query.")
+            coordinator.disconnect()
+            return false
         }
-        
-        coordinator.disconnect()
     }
+
 
     func fetchDataFromDatabase() {
         // Show loading indicator

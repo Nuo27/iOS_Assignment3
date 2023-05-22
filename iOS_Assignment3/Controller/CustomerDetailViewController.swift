@@ -50,7 +50,7 @@ class CustomerDetailViewController: UIViewController , UITextFieldDelegate{
         
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
-            textField.text = ""
+            //textField.text = ""
         }
     // Handle text field changes
     @objc func firstNameChanged() {
