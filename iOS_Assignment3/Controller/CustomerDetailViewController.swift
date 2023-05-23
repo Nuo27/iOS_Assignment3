@@ -18,6 +18,7 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     var partySize: String = "1"
     var selectedDate: String = ""
     var mostPartySize: Int = 0
+    var isEditingRecord: Bool = false
     // UI var
     @IBOutlet weak var timeSlotTestLabel: UILabel!
     @IBOutlet weak var firstNameTF: UITextField!
@@ -51,6 +52,8 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
         phoneNumberTF.addTarget(self, action: #selector(phoneNumberChanged), for: .editingChanged)
         emailAddressTF.addTarget(self, action: #selector(emailAddressChanged), for: .editingChanged)
         // vaild check
+        firstNameTF.addTarget(self, action: #selector(validateFirstNameInput), for: .editingDidEnd)
+        lastNameTF.addTarget(self, action: #selector(validateLastNameInput), for: .editingDidEnd)
         phoneNumberTF.addTarget(self, action: #selector(validatePhoneInput), for: .editingDidEnd)
         emailAddressTF.addTarget(self, action: #selector(validateEmailInput), for: .editingDidEnd)
     
@@ -64,6 +67,42 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
             print("false in phone check")
             showAlert(title: "Invalid Phone Number",
                       message: "Please enter a 10-digit phone number.")
+            return
+        }
+    }
+    @objc func validateFirstNameInput() {
+        let whitespaceCharacterSet = CharacterSet.whitespaces
+        let letterCharacterSet = CharacterSet.letters
+        
+        // Check for whitespace in the firstname
+        if firstname.rangeOfCharacter(from: whitespaceCharacterSet) != nil {
+            showAlert(title: "Invalid First Name",
+                      message: "Name must not contain space.")
+            return
+        }
+        
+        // Check if the firstname contains only letters
+        if firstname.rangeOfCharacter(from: letterCharacterSet.inverted) != nil {
+            showAlert(title: "Invalid First Name",
+                      message: "Name must only contain letters.")
+            return
+        }
+    }
+    @objc func validateLastNameInput() {
+        let whitespaceCharacterSet = CharacterSet.whitespaces
+        let letterCharacterSet = CharacterSet.letters
+        
+        // Check for whitespace in the firstname
+        if lastname.rangeOfCharacter(from: whitespaceCharacterSet) != nil {
+            showAlert(title: "Invalid Last Name",
+                      message: "Name must not contain space.")
+            return
+        }
+        
+        // Check if the firstname contains only letters
+        if lastname.rangeOfCharacter(from: letterCharacterSet.inverted) != nil {
+            showAlert(title: "Invalid Last Name",
+                      message: "Name must only contain letters.")
             return
         }
     }

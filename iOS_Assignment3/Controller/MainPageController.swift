@@ -14,13 +14,10 @@ class MainPageController: UIViewController {
     var adminName: String = "admin"
     var adminPass: String = "admin"
     static var currentCustomer = Customer(
-        name: "Guest", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
+        rid: 0, name: "Guest", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
     
     //ui
     @IBOutlet weak var welcomeMessage: UILabel!
-    @IBOutlet weak var UDRIDMessage: UILabel!
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -82,18 +79,79 @@ class MainPageController: UIViewController {
     func retrieveGuestRIDFromUserDefault() -> [Int]? {
         return UserDefaults.standard.array(forKey: "rid") as? [Int] ?? []
     }
-
-    @IBAction func printRID(){
-        UDRIDMessage.text = "UserDefault RID is: \(retrieveGuestRIDFromUserDefault() ?? [])"
+    @IBAction func settingButtonPressed() {
+        let alertController = UIAlertController(title: "Setting", message: nil, preferredStyle: .actionSheet)
+        
+        let printRIDAction = UIAlertAction(title: "Print Local Receipt IDs", style: .default) { _ in
+            if let message = self.printRID() {
+                self.showAlert(title: "My booking", message: message)
+            }
+        }
+        alertController.addAction(printRIDAction)
+        
+        let clearRIDAction = UIAlertAction(title: "Clear All Local Receipts", style: .destructive) { _ in
+            self.showConfirmationAlert(message: "Are you sure you want to clear the local receipt? You will not be able to retrieve them any more! ", confirmHandler: { _ in
+                self.clearRID()
+                self.showAlert(title: "Clear Local",message: "Receipts cleared successfully.")
+            })
+        }
+        alertController.addAction(clearRIDAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = view
+            popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        present(alertController, animated: true, completion: nil)
     }
-    @IBAction func clearRID(){
+    
+    func printRID() -> String? {
+        guard let rid = retrieveGuestRIDFromUserDefault() else {
+            return "No receipt is found."
+        }
+        return "Your booking receipt ID is/are: \(rid)"
+    }
+    
+    func clearRID() {
         UserDefaults.standard.removeObject(forKey: "rid")
         UserDefaults.standard.synchronize()
     }
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okayAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func showConfirmationAlert(message: String, confirmHandler: @escaping (UIAlertAction) -> Void) {
+        let alertController = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Yes", style: .destructive, handler: confirmHandler)
+        let cancelAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let bookingView = segue.destination as! BookingViewController
-//        bookingView.isAdmin = isAdmin
-//        //bookingView.user = user
+        let dateView = segue.destination as! DateViewController
+        dateView.isAdmin = isAdmin
+    }
+    @IBAction func navigateToBookView(){
+        let bookView = self.storyboard?.instantiateViewController(withIdentifier: "BookingView") as! BookingViewController
+        if(isAdmin){
+            bookView.isAdmin = isAdmin
+        } else{
+            bookView.RIDs = retrieveGuestRIDFromUserDefault() ?? []
+        }
+        self.navigationController?.pushViewController(bookView, animated: true)
+        
     }
 
     @IBAction func loginButtonTapped(_ sender: UIButton) {

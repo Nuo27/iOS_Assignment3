@@ -18,6 +18,7 @@ class DateViewController: UIViewController {
     @IBOutlet weak var messageLabel: UILabel!
     
     // var
+    var isAdmin = false
     var currentTotalPartySize: Int = 0
     var mostAvailableSeats: Int = 0
     let user = MySQLConfiguration(
@@ -37,6 +38,7 @@ class DateViewController: UIViewController {
     let timeSlotsCapacity = 30
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(isAdmin)
         // var
         selectedTimeSlot = nil
         bookButton.isEnabled = false
@@ -88,7 +90,6 @@ class DateViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
-        
         // Present the alert controller
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = timeSlotButton
@@ -178,6 +179,7 @@ class DateViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let customerDetailView = segue.destination as! CustomerDetailViewController
         customerDetailView.mostPartySize = mostAvailableSeats
+        customerDetailView.isEditingRecord = false
         customerDetailView.timeSlot = selectedTimeSlot!
         customerDetailView.selectedDate = selectedDate
         

@@ -8,6 +8,7 @@
 import Foundation
 
 class Customer {
+    private var rid: Int
     private var name: String
     private var phoneNumber: String
     private var emailAddress: String
@@ -15,7 +16,8 @@ class Customer {
     private var timeSlot: String
     private var date: String
     
-    init(name: String, phoneNumber: String, emailAddress: String, partySize: Int, timeSlot: String, date: String) {
+    init(rid: Int, name: String, phoneNumber: String, emailAddress: String, partySize: Int, timeSlot: String, date: String) {
+        self.rid = rid
         self.name = name
         self.phoneNumber = phoneNumber
         self.emailAddress = emailAddress
@@ -25,6 +27,9 @@ class Customer {
     }
     
     // Getter methods
+    func getRID() -> Int{
+        return rid
+    }
     func getName() -> String {
         return name
     }
@@ -47,6 +52,9 @@ class Customer {
     }
     
     // Setter methods
+    func setRID(rid: Int){
+        self.rid = rid
+    }
     func setName(name: String) {
         self.name = name
     }

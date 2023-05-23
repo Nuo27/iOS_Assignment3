@@ -87,7 +87,8 @@ class ConfirmViewController: UIViewController {
         do {
             try MySQLContainer.shared.mainQueryContext?.execute(insertRequest)
             let rid = MySQLContainer.shared.mainQueryContext?.lastInsertID().intValue
-            BookingViewController.addCustomer(customer: customer)
+            customer.setRID(rid: rid!)
+            //BookingViewController.addCustomer(customer: customer)
             MainPageController.currentCustomer = customer
             print("Customer inserted into the database.")
             
@@ -110,7 +111,7 @@ class ConfirmViewController: UIViewController {
             return nil
         }
         return Customer(
-            name: "\(firstname) \(lastname)", phoneNumber: phoneNumber, emailAddress: emailAddress,
+            rid: 0, name: "\(firstname) \(lastname)", phoneNumber: phoneNumber, emailAddress: emailAddress,
             partySize: Int(partySize) ?? 0, timeSlot: timeSlot, date: selectedDate)
     }
 }
