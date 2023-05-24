@@ -14,10 +14,11 @@ class MainPageController: UIViewController {
     var adminName: String = "admin"
     var adminPass: String = "admin"
     static var currentCustomer = Customer(
-        rid: 0, name: "Guest", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
+        rid: 0, name: "Customer", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
     
     //ui
     @IBOutlet weak var welcomeMessage: UILabel!
+    @IBOutlet weak var accBtn: UIButton!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -165,8 +166,10 @@ class MainPageController: UIViewController {
     func updateWelcomeMessage() {
         if isAdmin {
             welcomeMessage.text = "Welcome! Admin"
+            accBtn.setTitle("Staff", for: .normal)
         } else {
             welcomeMessage.text = "Welcome! \(MainPageController.currentCustomer.getName())"
+            accBtn.setTitle("Guest", for: .normal)
         }
     }
     

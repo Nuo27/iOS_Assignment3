@@ -16,66 +16,114 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Restaurant Booking" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F50-dr-WME">
-                                <rect key="frame" x="55" y="103" width="284" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="32"/>
-                                <color key="textColor" systemColor="systemTealColor"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="non-copyrighted restaurant" translatesAutoresizingMaskIntoConstraints="NO" id="RaO-2y-4G8">
+                                <rect key="frame" x="16" y="103.00000000000003" width="361" height="436.66666666666674"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="RaO-2y-4G8" secondAttribute="height" multiplier="191:231" id="o8X-yf-VXr"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reserve Now!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F50-dr-WME">
+                                <rect key="frame" x="16" y="549.66666666666663" width="361" height="51.666666666666629"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="F50-dr-WME" secondAttribute="height" multiplier="7:1" id="4F8-Ob-Lck"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Impact" family="Impact" pointSize="32"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4z8-dc-pgQ">
-                                <rect key="frame" x="115" y="681" width="164" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemTealColor"/>
-                                <color key="tintColor" systemColor="systemYellowColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tBg-Lp-YD5">
+                                <rect key="frame" x="16" y="601.33333333333337" width="361" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="tBg-Lp-YD5" secondAttribute="height" multiplier="191:9" id="hMY-Io-p89"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Book your table in Nuo's restaurant instantly!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zSz-06-Dhi">
+                                <rect key="frame" x="16" y="618.33333333333337" width="361" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="zSz-06-Dhi" secondAttribute="height" multiplier="191:9" id="yX2-ok-0LA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCI-zO-XuY">
+                                <rect key="frame" x="16" y="728.66666666666663" width="87" height="34.333333333333371"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="SCI-zO-XuY" secondAttribute="height" multiplier="43:17" id="mXd-Sg-aWM"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Start Booking">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="24"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <segue destination="75W-Cq-H5o" kind="show" id="71e-Ho-tIw"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCI-zO-XuY">
-                                <rect key="frame" x="308" y="714" width="50" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" image="person.circle.fill" catalog="system" title=""/>
+                                <buttonConfiguration key="configuration" style="tinted" image="person.circle.fill" catalog="system" title="Staff"/>
                                 <connections>
                                     <action selector="loginButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9cN-Qi-CXd"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tBg-Lp-YD5">
-                                <rect key="frame" x="102" y="203" width="191" height="57"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2R9-sq-PHP">
-                                <rect key="frame" x="160" y="745" width="61" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ag1-WT-Uxu">
+                                <rect key="frame" x="287" y="728" width="90" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Ag1-WT-Uxu" secondAttribute="height" multiplier="18:7" id="1xm-bL-vxi"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" title="View"/>
+                                <buttonConfiguration key="configuration" style="filled" image="arrowshape.right.fill" catalog="system" title="Book"/>
                                 <connections>
-                                    <action selector="navigateToBookView" destination="BYZ-38-t0r" eventType="touchUpInside" id="8jn-m0-Mu7"/>
+                                    <segue destination="75W-Cq-H5o" kind="show" id="dyQ-Ix-Fjc"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0j-Hy-DuR">
-                                <rect key="frame" x="44" y="715" width="52" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0j-Hy-DuR">
+                                <rect key="frame" x="16" y="773" width="107" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="v0j-Hy-DuR" secondAttribute="height" multiplier="107:35" id="7ir-rP-rgk"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" image="gear" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="tinted" image="gear" catalog="system" title="Setting"/>
                                 <connections>
                                     <action selector="settingButtonPressed" destination="BYZ-38-t0r" eventType="touchUpInside" id="JMW-ia-2UZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2R9-sq-PHP">
+                                <rect key="frame" x="287" y="773" width="90" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="2R9-sq-PHP" secondAttribute="height" multiplier="18:7" id="JtP-VU-QJ1"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" image="magazine" catalog="system" title="View"/>
+                                <connections>
+                                    <action selector="navigateToBookView" destination="BYZ-38-t0r" eventType="touchUpInside" id="8jn-m0-Mu7"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="RaO-2y-4G8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="0S4-bI-E0a"/>
+                            <constraint firstItem="v0j-Hy-DuR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="2lF-Yb-Rjb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="v0j-Hy-DuR" secondAttribute="bottom" constant="10" id="7FE-ow-AWn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zSz-06-Dhi" secondAttribute="trailing" constant="16" id="7Lf-fh-nF6"/>
+                            <constraint firstItem="F50-dr-WME" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="8hw-Wb-E82"/>
+                            <constraint firstItem="zSz-06-Dhi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="PqX-iT-hEb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ag1-WT-Uxu" secondAttribute="trailing" constant="16" id="PxE-vs-Dc6"/>
+                            <constraint firstItem="tBg-Lp-YD5" firstAttribute="top" secondItem="F50-dr-WME" secondAttribute="bottom" id="QYL-co-u3c"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2R9-sq-PHP" secondAttribute="trailing" constant="16" id="RIc-a3-XGT"/>
+                            <constraint firstItem="v0j-Hy-DuR" firstAttribute="top" secondItem="SCI-zO-XuY" secondAttribute="bottom" constant="10" id="Rt1-tI-2FH"/>
+                            <constraint firstItem="Ag1-WT-Uxu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SCI-zO-XuY" secondAttribute="trailing" constant="8" symbolic="YES" id="VBL-S2-nrC"/>
+                            <constraint firstItem="zSz-06-Dhi" firstAttribute="top" secondItem="tBg-Lp-YD5" secondAttribute="bottom" id="Vlt-Gq-vij"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="F50-dr-WME" secondAttribute="trailing" constant="16" id="YhI-mG-gps"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RaO-2y-4G8" secondAttribute="trailing" constant="16" id="ZUo-Nx-hl3"/>
+                            <constraint firstItem="F50-dr-WME" firstAttribute="top" secondItem="RaO-2y-4G8" secondAttribute="bottom" constant="10" id="d9z-y9-Ftv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2R9-sq-PHP" secondAttribute="bottom" constant="10" id="esB-RT-nJY"/>
+                            <constraint firstItem="tBg-Lp-YD5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="k9B-Ys-eJV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tBg-Lp-YD5" secondAttribute="trailing" constant="16" id="lN5-SV-Rt6"/>
+                            <constraint firstItem="2R9-sq-PHP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="v0j-Hy-DuR" secondAttribute="trailing" constant="8" symbolic="YES" id="oSw-yG-n2d"/>
+                            <constraint firstItem="2R9-sq-PHP" firstAttribute="top" secondItem="Ag1-WT-Uxu" secondAttribute="bottom" constant="10" id="sMT-ud-ep4"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="RaO-2y-4G8" secondAttribute="top" id="vbH-pp-2rQ"/>
+                            <constraint firstItem="SCI-zO-XuY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ya2-vN-WbC"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="S1q-4H-4DO"/>
                     <connections>
+                        <outlet property="accBtn" destination="SCI-zO-XuY" id="rlX-K5-Tkb"/>
                         <outlet property="welcomeMessage" destination="tBg-Lp-YD5" id="H7k-hv-hm3"/>
                     </connections>
                 </viewController>
@@ -454,7 +502,10 @@
     </scenes>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="113" height="128"/>
+        <image name="arrowshape.right.fill" catalog="system" width="128" height="104"/>
         <image name="gear" catalog="system" width="128" height="122"/>
+        <image name="magazine" catalog="system" width="110" height="128"/>
+        <image name="non-copyrighted restaurant" width="3883" height="2912"/>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
