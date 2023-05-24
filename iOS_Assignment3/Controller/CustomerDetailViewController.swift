@@ -29,10 +29,16 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var continueBtn: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Call your function here
+        navigationItem.hidesBackButton = true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        timeSlotTestLabel.text = "Selecting \(timeSlot) on \(self.selectedDate)"
+        timeSlotTestLabel.text = "Selected \(timeSlot) on \(self.selectedDate)"
         //var
         if(mostPartySize > 10){
             mostPartySize = 10
@@ -129,10 +135,6 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        //textField.text = ""
-    }
     // Handle text field changes
     @objc func firstNameChanged() {
         firstname = firstNameTF.text ?? ""
@@ -153,9 +155,6 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     @objc func partySizeChanged() {
         let selectedRow = partySizePickerView.selectedRow(inComponent: 0)
         partySize = "\(selectedRow + 1)"
-    }
-    @IBAction func bookButtonTapped(_ sender: UIButton) {
-        // test case removed
     }
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
