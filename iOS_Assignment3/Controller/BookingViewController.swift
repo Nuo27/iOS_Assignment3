@@ -17,6 +17,7 @@ class BookingViewController: UIViewController {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var timeSlotButton: UIButton!
+    @IBOutlet weak var detailButton: UIButton!
     //var
     
     var mostPartySize: Int = 0
@@ -59,6 +60,7 @@ class BookingViewController: UIViewController {
         }
         selectedTimeSlot = nil
         deleteButton.isEnabled = false
+        detailButton.isEnabled = false
         // delegate
         bookingTableView.dataSource = self
         bookingTableView.delegate = self
@@ -78,6 +80,10 @@ class BookingViewController: UIViewController {
         let maxDate = Calendar.current.date(byAdding: .day, value: 15, to: Date())
         datePicker.maximumDate = maxDate
         viewingDate = getLocalDate(date: datePicker.date)
+        if(isAdmin){
+            let minDate = Calendar.current.date(byAdding: .day, value: -15, to: Date())
+            datePicker.minimumDate = minDate
+        }
         // Show loading indicator
 //        let activityIndicator = UIActivityIndicatorView(style: .medium)
 //        activityIndicator.center = self.view.center
@@ -141,6 +147,48 @@ class BookingViewController: UIViewController {
         }
         
         present(alertController, animated: true, completion: nil)
+    }
+    @IBAction func showDetailInAlert() {
+        
+        if let rid = selectedCustomer?.getRID(),
+           let name = selectedCustomer?.getName(),
+           let phoneNumber = selectedCustomer?.getPhoneNumber(),
+           let emailAddress = selectedCustomer?.getEmailAddress(),
+           let partySize = selectedCustomer?.getPartySize(),
+           let timeSlot = selectedCustomer?.getTimeSlot(),
+           let date = selectedCustomer?.getDate() {
+            var message = ""
+            if(isOutOfDate(inDate: date)){
+                message = """
+        --OUT OF DATE--
+        RID: \(rid)
+        Name: \(name)
+        Phone Number: \(phoneNumber)
+        Email Address: \(emailAddress)
+        Party Size: \(partySize)
+        Time Slot: \(timeSlot)
+        Date: \(date)
+        """
+            }
+            else{
+                message = """
+        --TODAY"S BOOKING--
+        RID: \(rid)
+        Name: \(name)
+        Phone Number: \(phoneNumber)
+        Email Address: \(emailAddress)
+        Party Size: \(partySize)
+        Time Slot: \(timeSlot)
+        Date: \(date)
+        """
+            }
+
+            let alertController = UIAlertController(title: "Your booking detail", message: message, preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(okayAction)
+            
+            present(alertController, animated: true, completion: nil)
+        }
     }
 
 
@@ -228,6 +276,18 @@ class BookingViewController: UIViewController {
             coordinator.disconnect()
             return false
         }
+    }
+    func isOutOfDate(inDate: String) -> Bool {
+        let currentDate = Calendar.current.startOfDay(for: Date())
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, yyyy"
+        
+        if let date = dateFormatter.date(from: inDate) {
+            let inputDate = Calendar.current.startOfDay(for: date)
+            return inputDate < currentDate
+        }
+        
+        return true // Return true if the input date cannot be parsed
     }
     func guestFetchDataFromDatabase(RIDs: [Int]) {
         // Show loading indicator
@@ -389,7 +449,12 @@ extension BookingViewController: UITableViewDataSource {
         
         cell.textLabel?.text =
         "receipt \(customer.getRID()): booked by \(customer.getName()) (\(customer.getPartySize()))"
-        
+        if(isOutOfDate(inDate: customer.getDate())){
+            cell.textLabel?.textColor = .systemGray
+        }
+        else{
+            cell.textLabel?.textColor = .black
+        }
         return cell
     }
 }
@@ -406,6 +471,7 @@ extension BookingViewController: UITableViewDelegate {
             tableView.deselectRow(at: indexPath, animated: true)
             self.selectedCustomer = nil
             deleteButton.isEnabled = false
+            detailButton.isEnabled = false
         } else {
             // Handle booking logic for the selected customer
             print("Selected RID: \(selectedRID)")
@@ -418,6 +484,7 @@ extension BookingViewController: UITableViewDelegate {
                 viewingDate = customer.getDate()
                 selectedTimeSlot = customer.getTimeSlot()
                 deleteButton.isEnabled = true
+                detailButton.isEnabled = true
             }
         }
     }

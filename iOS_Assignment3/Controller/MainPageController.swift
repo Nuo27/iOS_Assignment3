@@ -82,14 +82,14 @@ class MainPageController: UIViewController {
     @IBAction func settingButtonPressed() {
         let alertController = UIAlertController(title: "Setting", message: nil, preferredStyle: .actionSheet)
         
-        let printRIDAction = UIAlertAction(title: "Print Local Receipt IDs", style: .default) { _ in
+        let printRIDAction = UIAlertAction(title: "Print All History Receipt IDs", style: .default) { _ in
             if let message = self.printRID() {
                 self.showAlert(title: "My booking", message: message)
             }
         }
         alertController.addAction(printRIDAction)
         
-        let clearRIDAction = UIAlertAction(title: "Clear All Local Receipts", style: .destructive) { _ in
+        let clearRIDAction = UIAlertAction(title: "Clear All History Receipts", style: .destructive) { _ in
             self.showConfirmationAlert(message: "Are you sure you want to clear the local receipt? You will not be able to retrieve them any more! ", confirmHandler: { _ in
                 self.clearRID()
                 self.showAlert(title: "Clear Local",message: "Receipts cleared successfully.")
@@ -113,7 +113,7 @@ class MainPageController: UIViewController {
         guard let rid = retrieveGuestRIDFromUserDefault() else {
             return "No receipt is found."
         }
-        return "Your booking receipt ID is/are: \(rid)"
+        return "Your history booking receipt ID is/are: \(rid)"
     }
     
     func clearRID() {

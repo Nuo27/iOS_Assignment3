@@ -179,10 +179,19 @@
                                 <locale key="locale" localeIdentifier="en_AU"/>
                             </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n3r-nZ-cPV">
-                                <rect key="frame" x="151" y="724" width="91" height="35"/>
+                                <rect key="frame" x="232" y="724" width="91" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="gray" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtS-Se-62i">
+                                <rect key="frame" x="89" y="724" width="76" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Details"/>
+                                <connections>
+                                    <action selector="showDetailInAlert" destination="V6a-O5-V1i" eventType="touchUpInside" id="r2o-QN-cye"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qtl-Sp-cUO"/>
@@ -193,6 +202,7 @@
                         <outlet property="bookingTableView" destination="Saf-Jc-ORc" id="93T-sd-pwB"/>
                         <outlet property="datePicker" destination="RP0-hK-yoa" id="4wX-mB-KmJ"/>
                         <outlet property="deleteButton" destination="n3r-nZ-cPV" id="j6q-gk-fgo"/>
+                        <outlet property="detailButton" destination="rtS-Se-62i" id="SNM-CQ-j4d"/>
                         <outlet property="refreshButton" destination="O9E-s4-Ib7" id="B4p-CE-1fn"/>
                         <outlet property="timeSlotButton" destination="NhC-oX-qvM" id="7xl-PQ-9fH"/>
                     </connections>
