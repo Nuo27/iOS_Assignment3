@@ -99,10 +99,23 @@ password: admin
 Database:
 
 ```
-Database url: db4free.net
-user: grouphd
-password: grouphd1
-database: iosgroupass
+user = MySQLConfiguration(
+  user: "grouphd", 
+  password: "grouphd1", 
+  serverName: "db4free.net", 
+  dbName: "iosgroupass",
+  port: 3306, 
+  socket: "/mysql/mysql.sock")
+```
+backup database
+```
+backupuser = MySQLConfiguration(
+  user: "epiz_34282737", 
+  password: "IPREzbZobF", 
+  serverName: "sql109.epizy.com", 
+  dbName: "epiz_34282737_iosassignment", 
+  port: 3306, 
+  socket: "/mysql/mysql.sock")
 ```
 
 ---
