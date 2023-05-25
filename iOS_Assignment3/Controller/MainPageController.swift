@@ -14,8 +14,11 @@ class MainPageController: UIViewController {
     var adminName: String = "admin"
     var adminPass: String = "admin"
     //for current customer info display
+//    static var currentCustomer = Customer(
+//        rid: 0, name: "Customer", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
+    // debug
     static var currentCustomer = Customer(
-        rid: 0, name: "Customer", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
+        rid: 99, name: "Nuo chen", phoneNumber: "1234567890", emailAddress: "nuo@test.com", partySize: 5, timeSlot: "", date: "")
     
     //ui
     @IBOutlet weak var welcomeMessage: UILabel!
@@ -146,6 +149,7 @@ class MainPageController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dateView = segue.destination as! DateViewController
         dateView.isAdmin = isAdmin
+        dateView.previousCustomer = MainPageController.currentCustomer
     }
     // navigate to book view and pass values
     @IBAction func navigateToBookView(){

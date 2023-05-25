@@ -18,6 +18,8 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     var partySize: String = "1"
     var selectedDate: String = ""
     var mostPartySize: Int = 0
+    var previousCustomer = Customer(
+        rid: 0, name: "Customer", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
     var isEditingRecord: Bool = false
     // UI var
     @IBOutlet weak var timeSlotTestLabel: UILabel!
@@ -28,6 +30,7 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var partySizePickerView: UIPickerView!
     @IBOutlet weak var continueBtn: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var fillButton: UIButton!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,6 +43,14 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
         // the most party Size will be maximum at 10
         if(mostPartySize > 10){
             mostPartySize = 10
+        }
+        if(previousCustomer.getRID() == 0){
+            fillButton.isEnabled = false
+            fillButton.setTitle("No previous records", for: .normal)
+        }
+        else{
+            fillButton.isEnabled = true
+            fillButton.setTitle("fill with previous details", for: .normal)
         }
         // Do any additional setup after loading the view.
         // display
@@ -167,6 +178,26 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
+    @IBAction func fillButtonTapped(_ sender: UIButton) {
+        let name = previousCustomer.getName()
+        let phone = previousCustomer.getPhoneNumber()
+        let email = previousCustomer.getEmailAddress()
+        let ppartySize = previousCustomer.getPartySize()
+        let nameComponents = name.components(separatedBy: " ")
+        let firstName = nameComponents[0]
+        let lastName = nameComponents[1]
+        
+        firstNameTF.text = firstName
+        lastNameTF.text = lastName
+        phoneNumberTF.text = phone
+        emailAddressTF.text = email
+        partySizePickerView.reloadAllComponents()
+        partySizePickerView.reloadAllComponents()
+        partySizePickerView.selectRow(ppartySize-1, inComponent: 0, animated: true)
+        partySize = "\(ppartySize)"
+        print(partySize)
+    }
+
     // data passing and call vaild input check again
     // non-valid values should never be passed to confirm view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

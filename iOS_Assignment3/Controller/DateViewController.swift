@@ -21,6 +21,9 @@ class DateViewController: UIViewController {
     var isAdmin = false
     var currentTotalPartySize: Int = 0
     var mostAvailableSeats: Int = 0
+    var previousCustomer = Customer(
+        rid: 0, name: "Customer", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
+    
     // database config
     private let user = MySQLConfiguration(
         user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
@@ -63,6 +66,7 @@ class DateViewController: UIViewController {
     // get date changes
     @objc func dateValueChanged(_ sender: UIDatePicker) {
         selectedDate = getLocalDate(date: sender.date)
+        bookButton.isEnabled = false
     }
     // display an indicator and call the getSumPartySizeFromDB function
     @objc func checkButtonTapped() {
@@ -108,6 +112,7 @@ class DateViewController: UIViewController {
     }
     // show timeSlots as action sheet
     @objc func timeSlotButtonTapped() {
+        bookButton.isEnabled = false
         let alertController = UIAlertController(title: "Select a Time", message: nil, preferredStyle: .actionSheet)
         
         for timeSlot in timeSlots {
@@ -188,5 +193,6 @@ class DateViewController: UIViewController {
         customerDetailView.isEditingRecord = false
         customerDetailView.timeSlot = selectedTimeSlot!
         customerDetailView.selectedDate = selectedDate
+        customerDetailView.previousCustomer = previousCustomer
     }
 }
