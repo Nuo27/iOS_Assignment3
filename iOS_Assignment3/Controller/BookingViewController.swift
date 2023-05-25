@@ -118,6 +118,7 @@ class BookingViewController: UIViewController {
     }
     @objc func refreshButtonTapped() {
         // Create an alert to display before refreshing
+        refreshButton.isEnabled = false
         var alert = UIAlertController()
         if !isAdmin {
             alert = UIAlertController(title: "Fetch Data", message: "You are retrieving your history orders", preferredStyle: .alert)
@@ -478,7 +479,12 @@ extension BookingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let customer = BookingViewController.customers[indexPath.row]
         let selectedRID = customer.getRID() // Assuming you have a method to retrieve the RID
-        
+        if(isOutOfDate(inDate: customer.getDate())){
+            deleteButton.setTitle("Delete", for: .normal)
+        }
+        else{
+            deleteButton.setTitle("Cancel", for: .normal)
+        }
         // Check if the selected customer is already selected
         if let selectedCustomer = selectedCustomer, selectedCustomer.getRID() == selectedRID {
             // Deselect the cell
