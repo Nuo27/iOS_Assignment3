@@ -18,10 +18,13 @@ class BookingViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var timeSlotButton: UIButton!
     @IBOutlet weak var detailButton: UIButton!
+    @IBOutlet weak var autoFetchButton: UIButton!
     // timer
     var timer = Timer()
     var fetchInterval: TimeInterval = 60
-    var isPaused = true
+    var isOn = false
+    var fetchMulti = 2
+    var autoOnOff = false
     //var
     var mostPartySize: Int = 0
     var isAdmin: Bool = false
@@ -54,24 +57,26 @@ class BookingViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        autoFetchButton.isEnabled = false
         // timer
         timer = Timer.scheduledTimer(withTimeInterval: fetchInterval, repeats: true) {
             timer in
-            if !self.isPaused {
+            if self.isOn {
                 //Methods called every seconds
                 self.fetchData()
             }
         }
         timer.fire()
-        fetchData()
         //print(RIDs ?? [])
         // init as false if admin that need to select timeslot first
         if(isAdmin){
             refreshButton.isEnabled = false
+            autoFetchButton.isEnabled = false
         }
         else{
             refreshButton.isEnabled = true
+            autoFetchButton.isEnabled = true
+            fetchData()
         }
         datePicker.isHidden = !isAdmin
         timeSlotButton.isHidden = !isAdmin
@@ -118,6 +123,119 @@ class BookingViewController: UIViewController {
 //        }
         
     }
+    //Auto fetch settings
+    @IBAction func showAutoFetchSettings() {
+        let settingsAlert = UIAlertController(title: "Auto Fetch Settings", message: nil, preferredStyle: .alert)
+        
+        // Create a vertical stack view
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        // IsPaused Stack View
+        let isOnStackView = UIStackView()
+        isOnStackView.axis = .horizontal
+        isOnStackView.spacing = 8
+        
+        let isOnLabel = UILabel()
+        isOnLabel.text = "Auto Fetch:"
+        isOnStackView.addArrangedSubview(isOnLabel)
+        let isOnSwitch = UISwitch()
+        isOnSwitch.isOn = isOn
+        isOnSwitch.addTarget(self, action: #selector(isOnSwitchValueChanged(_:)), for: .valueChanged)
+        isOnStackView.addArrangedSubview(isOnSwitch)
+        
+        stackView.addArrangedSubview(isOnStackView)
+        // Fetch Interval Stack View
+        let fetchIntervalStackView = UIStackView()
+        fetchIntervalStackView.axis = .horizontal
+        fetchIntervalStackView.spacing = 8
+        
+        let intervalLabel = UILabel()
+        intervalLabel.text = "Every:"
+        fetchIntervalStackView.addArrangedSubview(intervalLabel)
+        
+        let intervalValueLabel = UILabel()
+        let formattedInterval = String(format: "%.0f", fetchInterval)
+        intervalValueLabel.text = "\(formattedInterval)s"
+        fetchIntervalStackView.addArrangedSubview(intervalValueLabel)
+        
+        let intervalStepper = UIStepper()
+        intervalStepper.minimumValue = 2
+        intervalStepper.maximumValue = 5
+        intervalStepper.stepValue = 1
+        intervalStepper.value = Double(fetchMulti)
+        intervalStepper.addTarget(self, action: #selector(intervalStepperValueChanged(_:)), for: .valueChanged)
+        fetchIntervalStackView.addArrangedSubview(intervalStepper)
+        
+        stackView.addArrangedSubview(fetchIntervalStackView)
+        
+        // Save Button
+        let saveButton = UIButton(type: .system)
+        saveButton.setTitle("Save", for: .normal)
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        stackView.addArrangedSubview(saveButton)
+        
+        // Cancel Button
+        let cancelButton = UIButton(type: .system)
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        stackView.addArrangedSubview(cancelButton)
+        
+        // Add the stack view to the alert controller's view
+        settingsAlert.view.addSubview(stackView)
+        
+        // Add constraints for the stack view
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: settingsAlert.view.topAnchor, constant: 50),
+            stackView.leadingAnchor.constraint(equalTo: settingsAlert.view.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: settingsAlert.view.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: settingsAlert.view.bottomAnchor, constant: -16)
+        ])
+        
+        // Present the settings alert
+        present(settingsAlert, animated: true, completion: nil)
+    }
+    
+    @objc func intervalStepperValueChanged(_ stepper: UIStepper) {
+        let valueLabel = findValueLabel(for: stepper)
+        fetchMulti = Int(stepper.value)
+        let fi = TimeInterval(30 * fetchMulti)
+        let formattedInterval = String(format: "%.0f", fi)
+        valueLabel?.text = "\(formattedInterval)s"
+    }
+    
+    @objc func isOnSwitchValueChanged(_ isOnSwitch: UISwitch) {
+        autoOnOff = isOnSwitch.isOn
+    }
+    func findValueLabel(for control: UIControl) -> UILabel? {
+        guard let stackView = control.superview as? UIStackView else {
+            fatalError("Failed")
+        }
+        var j = 0
+        for i in stackView.subviews {
+            if let valueLabel = i as? UILabel {
+                j += 1
+                if j == 2 {
+                    return valueLabel
+                }
+            }
+        }
+        
+        return nil
+    }
+    @objc func saveButtonTapped() {
+        print("Fetch Multi: \(fetchMulti)")
+        print("On&Off: \(autoOnOff)")
+        fetchInterval = TimeInterval(30 * fetchMulti)
+        isOn = autoOnOff
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func cancelButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+
     // timer called function for auto fetching
     @objc func fetchData() {
         print("Fetching")
@@ -220,6 +338,7 @@ class BookingViewController: UIViewController {
                 self.selectedTimeSlot = timeSlot
                 print(self.selectedTimeSlot!)
                 self.refreshButton.isEnabled = true
+                self.autoFetchButton.isEnabled = true
             }
             alertController.addAction(action)
         }

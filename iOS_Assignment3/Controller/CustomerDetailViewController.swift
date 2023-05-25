@@ -187,11 +187,14 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
         let firstName = nameComponents[0]
         let lastName = nameComponents[1]
         
+        firstname = firstName
+        lastname = lastName
+        phoneNumber = phone
+        emailAddress = email
         firstNameTF.text = firstName
         lastNameTF.text = lastName
         phoneNumberTF.text = phone
         emailAddressTF.text = email
-        partySizePickerView.reloadAllComponents()
         partySizePickerView.reloadAllComponents()
         partySizePickerView.selectRow(ppartySize-1, inComponent: 0, animated: true)
         partySize = "\(ppartySize)"

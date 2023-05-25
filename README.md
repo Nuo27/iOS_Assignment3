@@ -1,20 +1,61 @@
 # 2023 iOS Dev Assignment3 repo
 
-This repository is dedicated to 2023 Autumn Assignment 3 in the course 41889 & 42889 Application Development in the iOS Environment.
+This repository is dedicated to UTS 2023 Autumn Assignment 3 in the course 41889 & 42889 Application Development in the iOS Environment.
 
 The assignment focuses on developing an online booking app for restaurants and **completed by Nuo Chen as a group of one.**
 
 The GitHub repository link for the project is: https://github.com/Nuo27/iOS_Assignment3
 
+The presentation video is in the repo root folder. (not yet)
+
 After submission, the project will be set to public for review and evaluation.
+
+After mark is released, the connection to the database will be closed.  
 
 ---
 
 ## Plz notify that
 
-I used a free online database as the backend support, this app may not work properly after the database is closed. That is also to say, the app may be running slow due to the physical distance between the database and the app.
+#### I used a free online database as the backend support, this app might be running slow due to the physical distance between the database and the app.
 
-Assignment due date: 2023-05-26
+Please wait after clicking the button, and the app will respond.
+should be approximately 260-300ms delay, since [db4free](#db4free) is based in Austria.
+
+That is also to say, the app may not work properly after the database is closed.
+
+#### I would recommend you to ping db4free.net to check the delay
+
+If took too long to respond, please try to run the app on backup database
+
+alternative, you can run the app on backup or your own database
+I've also created a backup database, refer to [Usage](#usage) in case the original database is closed/too slow. You can access it, by changing the user configuration in BookingViewController.swift, DateViewController.swift, ConfirmViewController.swift
+
+**If using own database:**
+```
+let user = MySQLConfiguration(
+  user: "your user name", 
+  password: "your password", 
+  serverName: "ip/localhost", 
+  dbName: "your database name",
+  port: 3306, 
+  socket: "/mysql/mysql.sock")
+```
+and create a table with the following structure
+```
+CREATE TABLE `customer` (
+  `RID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `phonenumber` varchar(255) NOT NULL,
+  `emailaddress` varchar(255) NOT NULL,
+  `timeslot` varchar(255) NOT NULL,
+  `partySize` int(11) NOT NULL,
+  `date` varchar(255) NOT NULL,
+  PRIMARY KEY (`RID`)
+) 
+AUTO_INCREMENT=1 
+DEFAULT CHARSET=utf8mb4 
+```
+#### Assignment due date: 2023-05-26
 
 --- **issue might triggered when ios version is different** ---
 

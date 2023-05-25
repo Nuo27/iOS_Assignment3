@@ -289,6 +289,14 @@
                                     <action selector="showDetailInAlert" destination="V6a-O5-V1i" eventType="touchUpInside" id="r2o-QN-cye"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ubC-Sh-MT0">
+                                <rect key="frame" x="319.33333333333331" y="73.666666666666671" width="49.666666666666686" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" image="autostartstop" catalog="system" title=""/>
+                                <connections>
+                                    <action selector="showAutoFetchSettings" destination="V6a-O5-V1i" eventType="touchUpInside" id="Rkg-iY-G8u"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qtl-Sp-cUO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -296,6 +304,7 @@
                             <constraint firstItem="O9E-s4-Ib7" firstAttribute="top" secondItem="qtl-Sp-cUO" secondAttribute="top" constant="59.666666666666686" id="33F-iP-OJj"/>
                             <constraint firstItem="RP0-hK-yoa" firstAttribute="leading" secondItem="qtl-Sp-cUO" secondAttribute="leading" constant="10" id="6C2-NE-khQ"/>
                             <constraint firstItem="n3r-nZ-cPV" firstAttribute="top" secondItem="Saf-Jc-ORc" secondAttribute="bottom" constant="10" id="8Lw-rp-CbM"/>
+                            <constraint firstItem="O9E-s4-Ib7" firstAttribute="top" secondItem="ubC-Sh-MT0" secondAttribute="bottom" constant="10" id="DgA-Kp-Oxc"/>
                             <constraint firstItem="NhC-oX-qvM" firstAttribute="baseline" secondItem="O9E-s4-Ib7" secondAttribute="firstBaseline" id="IGE-D4-ePH"/>
                             <constraint firstItem="sE3-WY-djy" firstAttribute="top" secondItem="qtl-Sp-cUO" secondAttribute="top" constant="10" id="Iq7-yH-fbT"/>
                             <constraint firstItem="Saf-Jc-ORc" firstAttribute="leading" secondItem="qtl-Sp-cUO" secondAttribute="leading" constant="10" id="Kak-Si-tDL"/>
@@ -304,6 +313,7 @@
                             <constraint firstItem="O9E-s4-Ib7" firstAttribute="top" secondItem="sE3-WY-djy" secondAttribute="bottom" constant="10" id="RCK-7X-whc"/>
                             <constraint firstItem="qtl-Sp-cUO" firstAttribute="trailing" secondItem="n3r-nZ-cPV" secondAttribute="trailing" constant="16" id="UKi-5v-5NU"/>
                             <constraint firstItem="sE3-WY-djy" firstAttribute="centerX" secondItem="qtl-Sp-cUO" secondAttribute="centerX" id="X0d-Dx-MDO"/>
+                            <constraint firstItem="qtl-Sp-cUO" firstAttribute="trailing" secondItem="ubC-Sh-MT0" secondAttribute="trailing" constant="24" id="be2-EX-zkX"/>
                             <constraint firstItem="Saf-Jc-ORc" firstAttribute="centerX" secondItem="qtl-Sp-cUO" secondAttribute="centerX" id="dd7-RJ-co4"/>
                             <constraint firstItem="qtl-Sp-cUO" firstAttribute="bottom" secondItem="n3r-nZ-cPV" secondAttribute="bottom" constant="10" id="eSl-Pi-7eD"/>
                             <constraint firstItem="NhC-oX-qvM" firstAttribute="leading" secondItem="RP0-hK-yoa" secondAttribute="trailing" constant="5" id="f8C-Hb-7Q2"/>
@@ -321,6 +331,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="3LH-sk-Tnb"/>
                     <connections>
+                        <outlet property="autoFetchButton" destination="ubC-Sh-MT0" id="wDi-0h-OU7"/>
                         <outlet property="bookingTableView" destination="Saf-Jc-ORc" id="93T-sd-pwB"/>
                         <outlet property="datePicker" destination="RP0-hK-yoa" id="4wX-mB-KmJ"/>
                         <outlet property="deleteButton" destination="n3r-nZ-cPV" id="j6q-gk-fgo"/>
@@ -647,6 +658,7 @@
         <image name="arrow.clockwise" catalog="system" width="113" height="128"/>
         <image name="arrowshape.left" catalog="system" width="128" height="104"/>
         <image name="arrowshape.right.fill" catalog="system" width="128" height="104"/>
+        <image name="autostartstop" catalog="system" width="128" height="125"/>
         <image name="calendar.badge.plus" catalog="system" width="128" height="108"/>
         <image name="checkmark.seal.fill" catalog="system" width="128" height="124"/>
         <image name="delete.forward.fill" catalog="system" width="128" height="102"/>
