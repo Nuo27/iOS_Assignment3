@@ -25,7 +25,7 @@ class BookingViewController: UIViewController {
         "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM",
         "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM"
     ]
-    
+    var timer = Timer()
     var viewingDate: String = ""
     var viewingTimeSlot: String = ""
     var selectedTimeSlot: String? {
@@ -116,44 +116,85 @@ class BookingViewController: UIViewController {
         viewingDate = getLocalDate(date: sender.date)
     }
     @objc func refreshButtonTapped() {
-        // Create an alert to display before refreshing
-        refreshButton.isEnabled = false
-        var alert = UIAlertController()
-        if !isAdmin {
-            alert = UIAlertController(title: "Fetch Data", message: "You are retrieving your history orders", preferredStyle: .alert)
-        }
-        else{
-            alert = UIAlertController(title: "Fetch Data", message: "You are retrieving all booking orders", preferredStyle: .alert)
-        }
+        let alertController = UIAlertController(
+            title: "Fetching Data", message: "You are fetching data now",
+            preferredStyle: .alert)
         
-        // Add an action to confirm the refresh
-        let confirmAction = UIAlertAction(title: "Fetch", style: .default) { (_) in
-            // Disable user interaction while refreshing
-            self.view.isUserInteractionEnabled = false
-            self.refreshButton.isEnabled = false
-            
-            var success = false
-            if self.isAdmin {
-                success = self.adminFetchDataFromDatabase(viewingDate: self.viewingDate, selectedTimeSlot: self.selectedTimeSlot!)
-            } else {
-                success = self.guestFetchDataFromDatabase(RIDs: self.RIDs!)
-            }
-            
-            // Enable user interaction
-            self.view.isUserInteractionEnabled = true
-            
-            if success {
-                print("Data fetched successfully")
-            } else {
-                print("Failed to Fetch data")
-            }
-            
-            self.refreshButton.isEnabled = true
+        let fetchAction = UIAlertAction(title: "Fetch", style: .default) { _ in
+            self.fetchCustomer()
         }
-        // Add actions to the alert
-        alert.addAction(confirmAction)
-        // Present the alert
-        self.present(alert, animated: true, completion: nil)
+        alertController.addAction(fetchAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    // added indicator
+    func fetchCustomer() {
+        // Disable user interaction while deleting
+        view.isUserInteractionEnabled = false
+        
+        // Add a container view for the activity indicator with a border
+        let containerWidth: CGFloat = 80
+        let containerHeight: CGFloat = 80
+        let containerView = UIView(frame: CGRect(x: (view.bounds.width - containerWidth) / 2, y: (view.bounds.height - containerHeight) / 2, width: containerWidth, height: containerHeight))
+        containerView.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        containerView.layer.cornerRadius = 10
+        containerView.layer.borderWidth = 1
+        containerView.layer.borderColor = UIColor.gray.cgColor
+        view.addSubview(containerView)
+        
+        // Add the activity indicator
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.center = CGPoint(x: containerView.bounds.width / 2, y: containerView.bounds.height / 2)
+        containerView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
+        DispatchQueue.main.async {
+            if self.isAdmin{
+                if self.adminFetchDataFromDatabase(viewingDate: self.viewingDate, selectedTimeSlot: self.selectedTimeSlot!) {
+                    // Show success notification
+                    let successAlertController = UIAlertController(
+                        title: "Success", message: "Data fetched successfully.", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    successAlertController.addAction(okAction)
+                    self.present(successAlertController, animated: true, completion: nil)
+                } else {
+                    print("Failed to delete customer")
+                    
+                    // Show error notification
+                    let errorAlertController = UIAlertController(
+                        title: "Error", message: "Failed to fetch customer.", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    errorAlertController.addAction(okAction)
+                    self.present(errorAlertController, animated: true, completion: nil)
+                }
+            } else {
+                if self.guestFetchDataFromDatabase(RIDs: self.RIDs!) {
+                    // Show success notification
+                    let successAlertController = UIAlertController(
+                        title: "Success", message: "Data fetched successfully.", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    successAlertController.addAction(okAction)
+                    self.present(successAlertController, animated: true, completion: nil)
+                } else {
+                    print("Failed to fetch customer")
+                    
+                    // Show error notification
+                    let errorAlertController = UIAlertController(
+                        title: "Error", message: "Failed to fetch customer.", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    errorAlertController.addAction(okAction)
+                    self.present(errorAlertController, animated: true, completion: nil)
+                }
+            }
+            
+            // Enable user interaction after deletion is complete
+            self.view.isUserInteractionEnabled = true
+            self.deleteButton.isEnabled = false
+            self.detailButton.isEnabled = false
+            
+            // Remove the indicator
+            containerView.removeFromSuperview()
+        }
     }
 
     // show and select time slots in action sheet
@@ -287,6 +328,7 @@ class BookingViewController: UIViewController {
             // Enable user interaction after deletion is complete
             self.view.isUserInteractionEnabled = true
             self.deleteButton.isEnabled = false
+            self.detailButton.isEnabled = false
             
             // Remove the indicator
             containerView.removeFromSuperview()
