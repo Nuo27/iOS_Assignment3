@@ -4,9 +4,40 @@ This repository is dedicated to 2023 Autumn Assignment 3 in the course 41889 & 4
 
 The assignment focuses on developing an online booking app for restaurants and **completed by Nuo Chen as a group of one.**
 
+This app is designed to be used by both customers and restaurant staff. Customers can use the app to book and cancel a reservation at a restaurant, while restaurant staff can use the app to view and manage bookings. Please refer to Features and Usage section for more details.
+
 The GitHub repository link for the project is: https://github.com/Nuo27/iOS_Assignment3
 
 After submission, the project will be set to public for review and evaluation.
+
+---
+
+In this repo:
+
+- [2023 iOS Dev Assignment3 repo](#2023-ios-dev-assignment3-repo)
+  - [Introduction](#introduction)
+  - [Plz notify that](#plz-notify-that)
+  - [Basic Build info](#basic-build-info)
+  - [Features and Usage](#features-and-usage)
+      - [Customer](#customer)
+      - [Staff](#staff)
+      - [Functions](#functions)
+  - [Iteration product design cycle](#iteration-product-design-cycle)
+      - [Iteration 1: May 7th - May 14th](#iteration-1-may-7th---may-14th)
+      - [Iteration 2: May 14th - May 16th](#iteration-2-may-14th---may-16th)
+      - [Iteration 3: May 16th - May 23th](#iteration-3-may-16th---may-23th)
+      - [Iteration 4: may 23th - May 26th](#iteration-4-may-23th---may-26th)
+  - [Used external tools](#used-external-tools)
+      - [Cocoapods:](#cocoapods)
+      - [OHMySQL:](#ohmysql)
+      - [db4free:](#db4free)
+  - [Copyright](#copyright)
+
+---
+
+## Introduction
+
+The purpose of this assignment is to create a user-friendly app that facilitates online booking system for restaurants. The app caters to both customers and restaurant staff, providing a seamless experience for both parties.
 
 ---
 
@@ -18,41 +49,7 @@ Assignment due date: 2023-05-26
 
 ---
 
-## CONTENTS OF THIS FILE
-
-- [2023 iOS Dev Assignment3 repo](#2023-ios-dev-assignment3-repo)
-  - [Plz notify that](#plz-notify-that)
-  - [CONTENTS OF THIS FILE](#contents-of-this-file)
-  - [Introduction](#introduction)
-  - [Basic Build info and Usage](#basic-build-info-and-usage)
-    - [Build](#build)
-    - [Usage](#usage)
-  - [Features](#features)
-    - [Customer](#customer)
-    - [Staff](#staff)
-    - [Functions](#functions)
-  - [Iteration product design cycle](#iteration-product-design-cycle)
-    - [Iteration 1: May 7th - May 14th](#iteration-1-may-7th---may-14th)
-    - [Iteration 2: May 14th - May 16th](#iteration-2-may-14th---may-16th)
-    - [Iteration 3: May 16th - May 23th](#iteration-3-may-16th---may-23th)
-    - [Iteration 4: may 23th - May 25th](#iteration-4-may-23th---may-25th)
-  - [Used external tools](#used-external-tools)
-    - [Cocoapods:](#cocoapods)
-    - [OHMySQL:](#ohmysql)
-    - [db4free:](#db4free)
-  - [Copyright](#copyright)
-
----
-
-## Introduction
-
-This app is designed for customers who want to make restaurant reservations and staff members who need to efficiently manage those reservations. It aims to eliminate the inconvenience of traditional reservation systems by providing an intuitive online platform for both parties to easily book and cancel reservations.
-
----
-
-## Basic Build info and Usage
-
-#### Build
+## Basic Build info
 
 Xcode 14.3(14E222b)
 
@@ -62,50 +59,24 @@ Build system: Xcode Build System
 
 Bundle Identifier: au.edu.uts.iOS-Assignment3
 
-#### Usage
-
-Customer
-
-```
-Free to use as guest
-View/Clear Local store receipts ID in Settings -> Print/Clear
-```
-
-Staff account login:
-
-```
-account: admin
-password: admin
-```
-
-Database:
-
-```
-Database url: db4free.net
-user: grouphd
-password: grouphd1
-database: iosgroupass
-```
-
 ---
 
-## Features
+## Features and Usage
 
 #### Customer
 
 - Select Date and time Slot
 - check time Slot availability
 - Place booking with customer details
-- Confirm details printed out for double checked
-- view/clear maded booking records and details
+- Confirm details printed out
+- view maded booking records
 - cancel maded booking records
 
 #### Staff
 
-- Login with admin ID and password
+- Login with admin ID and password (admin/admin in default)
 - Select Date and time Slot
 - View all booking records
-- View any record with its details
 - Cancel any booking
 
 #### Functions
@@ -140,9 +111,6 @@ where the overall length of project is about 20 days.
 #### Iteration 1: May 7th - May 14th
 
 - setup the project
-- plan for features and functions
-- plan for workflow
-- plan for iterations
 - create views and UI
 - create basic view crossing functions
 - test and debug
@@ -162,13 +130,12 @@ where the overall length of project is about 20 days.
 - restructure the project features and views
 - test and debug
 
-#### Iteration 4: may 23th - May 25th
+#### Iteration 4: may 23th - May 26th
 
 - sum up bugs left or possible improvement from last iteration
 - design UI visual
 - implement UI visual
 - test and debug
-- update final readme.md and presentation
 - submit
 
 ---
