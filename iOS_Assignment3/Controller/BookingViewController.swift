@@ -18,6 +18,10 @@ class BookingViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var timeSlotButton: UIButton!
     @IBOutlet weak var detailButton: UIButton!
+    // timer
+    var timer = Timer()
+    var fetchInterval: TimeInterval = 60
+    var isPaused = true
     //var
     var mostPartySize: Int = 0
     var isAdmin: Bool = false
@@ -25,7 +29,6 @@ class BookingViewController: UIViewController {
         "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM",
         "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM"
     ]
-    var timer = Timer()
     var viewingDate: String = ""
     var viewingTimeSlot: String = ""
     var selectedTimeSlot: String? {
@@ -47,10 +50,22 @@ class BookingViewController: UIViewController {
         // Call your function here
         BookingViewController.customers.removeAll()
         self.bookingTableView.reloadData()
+        timer.invalidate()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(RIDs ?? [])
+        
+        // timer
+        timer = Timer.scheduledTimer(withTimeInterval: fetchInterval, repeats: true) {
+            timer in
+            if !self.isPaused {
+                //Methods called every seconds
+                self.fetchData()
+            }
+        }
+        timer.fire()
+        fetchData()
+        //print(RIDs ?? [])
         // init as false if admin that need to select timeslot first
         if(isAdmin){
             refreshButton.isEnabled = false
@@ -103,6 +118,11 @@ class BookingViewController: UIViewController {
 //        }
         
     }
+    // timer called function for auto fetching
+    @objc func fetchData() {
+        print("Fetching")
+        fetchCustomer()
+    }
     func getLocalDate(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
@@ -128,7 +148,8 @@ class BookingViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     // added indicator
-    func fetchCustomer() {
+    func fetchCustomer(){
+
         // Disable user interaction while deleting
         view.isUserInteractionEnabled = false
         
@@ -151,12 +172,8 @@ class BookingViewController: UIViewController {
         DispatchQueue.main.async {
             if self.isAdmin{
                 if self.adminFetchDataFromDatabase(viewingDate: self.viewingDate, selectedTimeSlot: self.selectedTimeSlot!) {
-                    // Show success notification
-                    let successAlertController = UIAlertController(
-                        title: "Success", message: "Data fetched successfully.", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    successAlertController.addAction(okAction)
-                    self.present(successAlertController, animated: true, completion: nil)
+                    activityIndicator.stopAnimating()
+                    containerView.removeFromSuperview()
                 } else {
                     print("Failed to delete customer")
                     
@@ -169,12 +186,8 @@ class BookingViewController: UIViewController {
                 }
             } else {
                 if self.guestFetchDataFromDatabase(RIDs: self.RIDs!) {
-                    // Show success notification
-                    let successAlertController = UIAlertController(
-                        title: "Success", message: "Data fetched successfully.", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    successAlertController.addAction(okAction)
-                    self.present(successAlertController, animated: true, completion: nil)
+                    activityIndicator.stopAnimating()
+                    containerView.removeFromSuperview()
                 } else {
                     print("Failed to fetch customer")
                     
@@ -187,13 +200,13 @@ class BookingViewController: UIViewController {
                 }
             }
             
-            // Enable user interaction after deletion is complete
+            // Enable user interaction after complete
             self.view.isUserInteractionEnabled = true
             self.deleteButton.isEnabled = false
             self.detailButton.isEnabled = false
-            
-            // Remove the indicator
+            activityIndicator.stopAnimating()
             containerView.removeFromSuperview()
+
         }
     }
 

@@ -28,6 +28,9 @@ class DateViewController: UIViewController {
     private let user = MySQLConfiguration(
         user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
         port: 3306, socket: "/mysql/mysql.sock")
+    private let backupuser = MySQLConfiguration(
+        user: "epiz_34282737", password: "IPREzbZobF", serverName: "sql109.epizy.com", dbName: "epiz_34282737_iosassignment",
+        port: 3306, socket: "/mysql/mysql.sock")
     var selectedTimeSlot: String? {
         didSet {
             timeSlotButton.setTitle(selectedTimeSlot ?? "Select Time", for: .normal)
@@ -45,6 +48,13 @@ class DateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // debug
+//        let coordinator = MySQLStoreCoordinator(configuration: backupuser)
+//        coordinator.encoding = .UTF8MB4
+//        view.isUserInteractionEnabled = false
+//        if coordinator.connect() {
+//            print("Connected successfully in fetching data")
+//            coordinator.disconnect()
+//        }
         //print(isAdmin)
         // var
         selectedTimeSlot = nil
