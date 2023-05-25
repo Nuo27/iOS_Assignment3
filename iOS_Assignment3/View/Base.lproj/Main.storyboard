@@ -50,12 +50,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCI-zO-XuY">
-                                <rect key="frame" x="16" y="728.66666666666663" width="87.333333333333329" height="34.333333333333371"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="SCI-zO-XuY" secondAttribute="height" multiplier="43:17" id="mXd-Sg-aWM"/>
-                                </constraints>
+                                <rect key="frame" x="16" y="728" width="95" height="35"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" image="person.circle.fill" catalog="system" title="Staff"/>
+                                <buttonConfiguration key="configuration" style="tinted" image="person.circle.fill" catalog="system" title="Guest"/>
                                 <connections>
                                     <action selector="loginButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9cN-Qi-CXd"/>
                                 </connections>
@@ -155,7 +152,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="IkD-V5-677">
-                                <rect key="frame" x="16" y="597" width="152.66666666666666" height="34.666666666666629"/>
+                                <rect key="frame" x="16" y="597" width="153.33333333333334" height="34.666666666666629"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="IkD-V5-677" secondAttribute="height" multiplier="146:33" id="qa8-k3-Prp"/>
                                 </constraints>
@@ -190,7 +187,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5gv-DE-TbL">
-                                <rect key="frame" x="239" y="597" width="138" height="34.666666666666629"/>
+                                <rect key="frame" x="238.33333333333337" y="597" width="138.66666666666663" height="34.666666666666629"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="5gv-DE-TbL" secondAttribute="height" multiplier="4:1" id="F87-6L-9LY"/>
                                 </constraints>
@@ -256,11 +253,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Saf-Jc-ORc">
-                                <rect key="frame" x="10" y="168.66666666666669" width="373" height="594.33333333333326"/>
+                                <rect key="frame" x="10" y="168" width="373" height="595"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhC-oX-qvM">
-                                <rect key="frame" x="180" y="118.66666666666669" width="132" height="35"/>
+                                <rect key="frame" x="180" y="118.66666666666667" width="132" height="34.333333333333329"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="132" id="8uF-9x-URA"/>
                                 </constraints>
@@ -268,7 +265,7 @@
                                 <buttonConfiguration key="configuration" style="gray" title="Button"/>
                             </button>
                             <datePicker contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="RP0-hK-yoa">
-                                <rect key="frame" x="10" y="118.66666666666669" width="165" height="35"/>
+                                <rect key="frame" x="10" y="118.66666666666667" width="165" height="34.333333333333329"/>
                                 <locale key="locale" localeIdentifier="en_AU"/>
                             </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n3r-nZ-cPV">

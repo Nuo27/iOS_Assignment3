@@ -37,12 +37,13 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        timeSlotTestLabel.text = "Selected \(timeSlot) on \(self.selectedDate)"
-        //var
+        // the most party Size will be maximum at 10
         if(mostPartySize > 10){
             mostPartySize = 10
         }
+        // Do any additional setup after loading the view.
+        // display
+        timeSlotTestLabel.text = "Selected \(timeSlot) on \(self.selectedDate)"
         // Set text field delegates
         firstNameTF.delegate = self
         lastNameTF.delegate = self
@@ -57,14 +58,18 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
         lastNameTF.addTarget(self, action: #selector(lastNameChanged), for: .editingChanged)
         phoneNumberTF.addTarget(self, action: #selector(phoneNumberChanged), for: .editingChanged)
         emailAddressTF.addTarget(self, action: #selector(emailAddressChanged), for: .editingChanged)
+        // turn off sugguest for names and email
+        firstNameTF.autocorrectionType = .no
+        lastNameTF.autocorrectionType = .no
+        emailAddressTF.autocorrectionType = .no
         // vaild check
         firstNameTF.addTarget(self, action: #selector(validateFirstNameInput), for: .editingDidEnd)
         lastNameTF.addTarget(self, action: #selector(validateLastNameInput), for: .editingDidEnd)
         phoneNumberTF.addTarget(self, action: #selector(validatePhoneInput), for: .editingDidEnd)
         emailAddressTF.addTarget(self, action: #selector(validateEmailInput), for: .editingDidEnd)
-    
-        
+
     }
+    // check if the phone is a 10-digit number
     @objc func validatePhoneInput() {
         let phoneNumberWithoutSpaces = phoneNumber.replacingOccurrences(of: " ", with: "")
         let phoneNumberDigits = phoneNumberWithoutSpaces.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
@@ -76,6 +81,7 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
             return
         }
     }
+    // check if the first name is all letters with no spaces containing
     @objc func validateFirstNameInput() {
         let whitespaceCharacterSet = CharacterSet.whitespaces
         let letterCharacterSet = CharacterSet.letters
@@ -94,6 +100,7 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
             return
         }
     }
+    // check if the last name is all letters with no spaces containing
     @objc func validateLastNameInput() {
         let whitespaceCharacterSet = CharacterSet.whitespaces
         let letterCharacterSet = CharacterSet.letters
@@ -112,6 +119,7 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
             return
         }
     }
+    // check if the email address is the correct format
     @objc func validateEmailInput(){
         // Validate email address format
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -124,9 +132,7 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
             return
         }
     }
-
-
-    
+    // show alerts methods
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(
             title: title, message: message,
@@ -135,7 +141,7 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
-    // Handle text field changes
+    // handle text fields changes
     @objc func firstNameChanged() {
         firstname = firstNameTF.text ?? ""
     }
@@ -151,15 +157,18 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     @objc func emailAddressChanged() {
         emailAddress = emailAddressTF.text ?? ""
     }
-    
+    // handle the partySize changes
     @objc func partySizeChanged() {
         let selectedRow = partySizePickerView.selectedRow(inComponent: 0)
         partySize = "\(selectedRow + 1)"
     }
+    // pop back to last window if cancel input customer details
+    // preventing from data passing error
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
-    
+    // data passing and call vaild input check again
+    // non-valid values should never be passed to confirm view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let nextView = segue.destination as? ConfirmViewController else {
             return
@@ -190,23 +199,20 @@ class CustomerDetailViewController: UIViewController, UITextFieldDelegate {
     }
     
 }
+// MARK: TimeSlot Picker DataSource
 extension CustomerDetailViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        // Return the number of options you want in the picker view
         return mostPartySize
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int)
     -> String?
     {
-        // Return the title for each row in the picker view
         return "\(row + 1)"
     }
-    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         partySize = "\(row + 1)"
     }

@@ -13,6 +13,7 @@ class MainPageController: UIViewController {
     var isAdmin: Bool = false
     var adminName: String = "admin"
     var adminPass: String = "admin"
+    //for current customer info display
     static var currentCustomer = Customer(
         rid: 0, name: "Customer", phoneNumber: "", emailAddress: "", partySize: 1, timeSlot: "", date: "")
     
@@ -77,9 +78,11 @@ class MainPageController: UIViewController {
         //        coordinator.disconnect()
         //
     }
+    // get Receipt ID stored locally
     func retrieveGuestRIDFromUserDefault() -> [Int]? {
         return UserDefaults.standard.array(forKey: "rid") as? [Int] ?? []
     }
+    // show options to display or clear local history receipt
     @IBAction func settingButtonPressed() {
         let alertController = UIAlertController(title: "Setting", message: nil, preferredStyle: .actionSheet)
         
@@ -109,19 +112,19 @@ class MainPageController: UIViewController {
         
         present(alertController, animated: true, completion: nil)
     }
-    
+    // output receipt id message
     func printRID() -> String? {
         guard let rid = retrieveGuestRIDFromUserDefault() else {
             return "No receipt is found."
         }
         return "Your history booking receipt ID is/are: \(rid)"
     }
-    
+    // clear all rid
     func clearRID() {
         UserDefaults.standard.removeObject(forKey: "rid")
         UserDefaults.standard.synchronize()
     }
-    
+    // show alert method
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -129,7 +132,7 @@ class MainPageController: UIViewController {
         
         present(alertController, animated: true, completion: nil)
     }
-    
+    // show confirmation alert separately
     func showConfirmationAlert(message: String, confirmHandler: @escaping (UIAlertAction) -> Void) {
         let alertController = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Yes", style: .destructive, handler: confirmHandler)
@@ -139,11 +142,12 @@ class MainPageController: UIViewController {
         
         present(alertController, animated: true, completion: nil)
     }
-
+    // just for debug
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dateView = segue.destination as! DateViewController
         dateView.isAdmin = isAdmin
     }
+    // navigate to book view and pass values
     @IBAction func navigateToBookView(){
         let bookView = self.storyboard?.instantiateViewController(withIdentifier: "BookingView") as! BookingViewController
         if(isAdmin){
@@ -154,7 +158,7 @@ class MainPageController: UIViewController {
         self.navigationController?.pushViewController(bookView, animated: true)
         
     }
-
+    // show login windows or management windows
     @IBAction func loginButtonTapped(_ sender: UIButton) {
         if isAdmin {
             showAccountManagementWindow()
@@ -162,7 +166,7 @@ class MainPageController: UIViewController {
             showLoginWindow()
         }
     }
-    
+    // show the welcome message
     func updateWelcomeMessage() {
         if isAdmin {
             welcomeMessage.text = "Welcome! Admin"
@@ -172,8 +176,14 @@ class MainPageController: UIViewController {
             accBtn.setTitle("Guest", for: .normal)
         }
     }
-    
+    // display login window and allows login with username and password
+    // this method will show a log: Changing the translatesAutoresizingMaskIntoConstraints property of a UICollectionViewCell that is managed by a UICollectionView is not supported, and will result in incorrect self-sizing.
+    // but result is all fine
+    // https://developer.apple.com/forums/thread/707150
+    // similar situation not solved either
     func showLoginWindow() {
+//        let view = UIView()
+//        view.translatesAutoresizingMaskIntoConstraints = false
         let alert = UIAlertController(
             title: "Login", message: "Enter your account credentials", preferredStyle: .alert)
         
@@ -212,7 +222,7 @@ class MainPageController: UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
-    
+    // fail to login message
     func showLoginError() {
         let alert = UIAlertController(
             title: "Login Failed", message: "Invalid username or password", preferredStyle: .alert)
@@ -220,7 +230,7 @@ class MainPageController: UIViewController {
         present(alert, animated: true, completion: nil)
         updateWelcomeMessage()
     }
-    
+    // login success messgae
     func showLoginSuccess() {
         let alert = UIAlertController(
             title: "Login Successfully", message: "Login successfully as a restaurant",
@@ -229,7 +239,7 @@ class MainPageController: UIViewController {
         present(alert, animated: true, completion: nil)
         updateWelcomeMessage()
     }
-    
+    // management windows with edit, logout and cancel
     func showAccountManagementWindow() {
         let alert = UIAlertController(
             title: "Account Management", message: "Manage your account", preferredStyle: .alert)
@@ -253,7 +263,7 @@ class MainPageController: UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
-    
+    //edit new admin name and password
     func showEditAccountWindow() {
         let editAccountAlert = UIAlertController(
             title: "Edit Account", message: "Hi, \(self.adminName). Please Edit your account name and password", preferredStyle: .alert)
@@ -298,7 +308,7 @@ class MainPageController: UIViewController {
         
         present(editAccountAlert, animated: true, completion: nil)
     }
-    
+    // edit success
     func showEditAccountSuccess() {
         let alert = UIAlertController(
             title: "Account Updated", message: "Your account has been updated successfully",
@@ -306,7 +316,7 @@ class MainPageController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-    
+    // logout success
     func showLogoutSuccess() {
         let alert = UIAlertController(
             title: "Logout", message: "You have been logged out", preferredStyle: .alert)

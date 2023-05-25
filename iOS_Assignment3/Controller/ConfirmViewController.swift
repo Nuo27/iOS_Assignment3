@@ -18,6 +18,7 @@ class ConfirmViewController: UIViewController {
     var phoneNumber: String = ""
     var emailAddress: String = ""
     var partySize: String = ""
+    // database config
     private let user = MySQLConfiguration(
         user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
         port: 3306, socket: "/mysql/mysql.sock")
@@ -45,7 +46,7 @@ class ConfirmViewController: UIViewController {
         emailLabel.text = "Email: \(emailAddress)"
         partySizeLabel.text = "Party Size: \(partySize)"
     }
-    
+    // show a indicator and call the databaseCreateCustomer function
     @objc func confirmButtonTapped() {
         view.isUserInteractionEnabled = false
         
@@ -101,7 +102,8 @@ class ConfirmViewController: UIViewController {
             view.isUserInteractionEnabled = true
         }
     }
-
+    // connect to database a create a new customer records
+    // get rid (Receipt ID) and store the current customer info to main page for displaying
     func databaseCreateCustomer(customer: Customer) -> Bool {
         let name = customer.getName()
         let phoneNumber = customer.getPhoneNumber()
@@ -124,10 +126,9 @@ class ConfirmViewController: UIViewController {
             try MySQLContainer.shared.mainQueryContext?.execute(insertRequest)
             let rid = MySQLContainer.shared.mainQueryContext?.lastInsertID().intValue
             customer.setRID(rid: rid!)
-            //BookingViewController.addCustomer(customer: customer)
             MainPageController.currentCustomer = customer
             print("Customer inserted into the database.")
-            
+            //store rid
             var existingArray = UserDefaults.standard.array(forKey: "rid") as? [Int] ?? []
             existingArray.append(rid!)
             UserDefaults.standard.set(existingArray, forKey: "rid")
@@ -139,10 +140,10 @@ class ConfirmViewController: UIViewController {
             return false
         }
     }
-
+    // do a double check just in case
     func createCustomer() -> Customer? {
         guard !firstname.isEmpty, !lastname.isEmpty, !phoneNumber.isEmpty, !emailAddress.isEmpty,
-              !partySize.isEmpty
+              !partySize.isEmpty, !timeSlot.isEmpty, !selectedDate.isEmpty
         else {
             return nil
         }

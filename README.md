@@ -16,6 +16,24 @@ I used a free online database as the backend support, this app may not work prop
 
 Assignment due date: 2023-05-26
 
+--- **issue might triggered when ios version is different** ---
+
+If you r facing: directory not found for option '~/iOS_Assignment3/OHMySQL/lib/MySQL.xcframework/ios-arm64'
+
+The correct path should be: ~/iOS_Assignment3/Pods/OHMySQL/lib/MySQL.xcframework/ios-arm64
+
+This is because the modification of OHMYSQL Cocoapods implementation
+
+try:
+1. Root Folder ->modify the podfile to ur target ios version
+2. run ```$ pop update update``` in terminal
+3. Product ->clean and build
+
+if still not working:
+1. clean the cocoapods implementation and re-install it
+2. Implement the OHMYSQL manually, follow [Cocoapods:](#cocoapods)
+3. link the arm64 build on build settings manually
+
 ---
 
 ## CONTENTS OF THIS FILE

@@ -21,7 +21,8 @@ class DateViewController: UIViewController {
     var isAdmin = false
     var currentTotalPartySize: Int = 0
     var mostAvailableSeats: Int = 0
-    let user = MySQLConfiguration(
+    // database config
+    private let user = MySQLConfiguration(
         user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
         port: 3306, socket: "/mysql/mysql.sock")
     var selectedTimeSlot: String? {
@@ -36,13 +37,15 @@ class DateViewController: UIViewController {
         "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM",
     ]
     let timeSlotsCapacity = 30
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(isAdmin)
+        // debug
+        //print(isAdmin)
         // var
         selectedTimeSlot = nil
         bookButton.isEnabled = false
-        
         // title
         bookButton.setTitle("Book", for: .normal)
         checkAvailbilityButton.setTitle("Check", for: .normal)
@@ -51,14 +54,17 @@ class DateViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(dateValueChanged(_:)), for: .valueChanged)
         checkAvailbilityButton.isEnabled = false
         checkAvailbilityButton.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
+        // set up date
         datePicker.minimumDate = Date()
         let maxDate = Calendar.current.date(byAdding: .day, value: 15, to: Date())
         datePicker.maximumDate = maxDate
         selectedDate = getLocalDate(date: datePicker.date)
     }
+    // get date changes
     @objc func dateValueChanged(_ sender: UIDatePicker) {
         selectedDate = getLocalDate(date: sender.date)
     }
+    // display an indicator and call the getSumPartySizeFromDB function
     @objc func checkButtonTapped() {
         view.isUserInteractionEnabled = false
         
@@ -100,12 +106,13 @@ class DateViewController: UIViewController {
             }
         }
     }
+    // show timeSlots as action sheet
     @objc func timeSlotButtonTapped() {
         let alertController = UIAlertController(title: "Select a Time", message: nil, preferredStyle: .actionSheet)
         
         for timeSlot in timeSlots {
             let action = UIAlertAction(title: timeSlot, style: .default) { _ in
-                // Handle the selected time slot
+                // handle the selected time slot
                 self.selectedTimeSlot = timeSlot
                 self.checkAvailbilityButton.isEnabled = true
             }
@@ -114,7 +121,7 @@ class DateViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
-        // Present the alert controller
+        // present the alert controller
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = timeSlotButton
             popoverController.sourceRect = timeSlotButton.bounds
@@ -122,19 +129,21 @@ class DateViewController: UIViewController {
         
         present(alertController, animated: true, completion: nil)
     }
+    // get local date value in string
     func getLocalDate(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
-        // Set the time zone to the local time zone
+        // set the time zone to the local time zone
         dateFormatter.timeZone = TimeZone.current
         
         let localTime = dateFormatter.string(from: date)
         return localTime
     }
+    // retrieve the sum of totalpartysize in the current time slot
     func getSumPartySizeFromDB(date: String, timeSlot: String, completion: @escaping (Int) -> Void) {
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
-        
+        view.isUserInteractionEnabled = false
         if coordinator.connect() {
             print("Connected successfully in fetching data")
             
@@ -157,15 +166,10 @@ class DateViewController: UIViewController {
                        let totalPartySize = row["totalPartySize"] as? Int {
                         totalPartySizeForTimeSlot = totalPartySize
                     }
-                    
                     print("Data fetched from the database.")
-                    
-                    // Call the completion handler with the fetched result
                     completion(totalPartySizeForTimeSlot)
                 } catch {
                     print("Cannot execute the query.")
-                    
-                    // Call the completion handler with a default value or error indicator
                     completion(0)
                 }
                 
@@ -173,22 +177,16 @@ class DateViewController: UIViewController {
             }
         } else {
             print("Failed to connect to the database.")
-            
-            // Call the completion handler with a default value or error indicator
             completion(0)
-            
             view.isUserInteractionEnabled = true
         }
     }
-
+    // datapassing
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let customerDetailView = segue.destination as! CustomerDetailViewController
         customerDetailView.mostPartySize = mostAvailableSeats
         customerDetailView.isEditingRecord = false
         customerDetailView.timeSlot = selectedTimeSlot!
         customerDetailView.selectedDate = selectedDate
-        
     }
-
-
 }

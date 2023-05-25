@@ -19,7 +19,6 @@ class BookingViewController: UIViewController {
     @IBOutlet weak var timeSlotButton: UIButton!
     @IBOutlet weak var detailButton: UIButton!
     //var
-    
     var mostPartySize: Int = 0
     var isAdmin: Bool = false
     let timeSlots = [
@@ -38,9 +37,10 @@ class BookingViewController: UIViewController {
     var selectedCustomer: Customer?
     static var customers: [Customer] = []
     //database config
-    let user = MySQLConfiguration(
+    private let user = MySQLConfiguration(
         user: "grouphd", password: "grouphd1", serverName: "db4free.net", dbName: "iosgroupass",
         port: 3306, socket: "/mysql/mysql.sock")
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -51,13 +51,16 @@ class BookingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(RIDs ?? [])
-        // init as false
+        // init as false if admin that need to select timeslot first
         if(isAdmin){
             refreshButton.isEnabled = false
         }
         else{
             refreshButton.isEnabled = true
         }
+        datePicker.isHidden = !isAdmin
+        timeSlotButton.isHidden = !isAdmin
+        //var
         selectedTimeSlot = nil
         deleteButton.isEnabled = false
         detailButton.isEnabled = false
@@ -75,7 +78,7 @@ class BookingViewController: UIViewController {
         // add target to Buttons
         refreshButton.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-        //
+        // date setup
         datePicker.minimumDate = Date()
         let maxDate = Calendar.current.date(byAdding: .day, value: 15, to: Date())
         datePicker.maximumDate = maxDate
@@ -84,7 +87,7 @@ class BookingViewController: UIViewController {
             let minDate = Calendar.current.date(byAdding: .day, value: -15, to: Date())
             datePicker.minimumDate = minDate
         }
-        // Show loading indicator
+        // Show loading indicator old old
 //        let activityIndicator = UIActivityIndicatorView(style: .medium)
 //        activityIndicator.center = self.view.center
 //        activityIndicator.startAnimating()
@@ -98,10 +101,6 @@ class BookingViewController: UIViewController {
 //            activityIndicator.stopAnimating()
 //            activityIndicator.removeFromSuperview()
 //        }
-        
-        
-        datePicker.isHidden = !isAdmin
-        timeSlotButton.isHidden = !isAdmin
         
     }
     func getLocalDate(date: Date) -> String {
@@ -157,7 +156,7 @@ class BookingViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
-
+    // show and select time slots in action sheet
     @objc func timeSlotButtonTapped() {
         let alertController = UIAlertController(title: "Select a Time", message: nil, preferredStyle: .actionSheet)
         
@@ -182,6 +181,8 @@ class BookingViewController: UIViewController {
         
         present(alertController, animated: true, completion: nil)
     }
+    // display customer details in alert
+    // this will never be called if not selected
     @IBAction func showDetailInAlert() {
         
         if let rid = selectedCustomer?.getRID(),
@@ -224,8 +225,8 @@ class BookingViewController: UIViewController {
             present(alertController, animated: true, completion: nil)
         }
     }
-
-
+    // delete customer
+    // this will never be called if not selected
     @objc func deleteButtonTapped() {
         let alertController = UIAlertController(
             title: "Cancel Booking", message: "Are you sure you want to cancel this booking?",
@@ -241,7 +242,7 @@ class BookingViewController: UIViewController {
         
         present(alertController, animated: true, completion: nil)
     }
-    
+    // added indicator
     func deleteCustomer() {
         // Disable user interaction while deleting
         view.isUserInteractionEnabled = false
@@ -291,7 +292,7 @@ class BookingViewController: UIViewController {
             containerView.removeFromSuperview()
         }
     }
-
+    // remove Receipts from local
     func removeGuestRIDFromUserDefaults(_ rid: Int) {
         var guestRIDs = UserDefaults.standard.array(forKey: "rid") as? [Int] ?? []
         
@@ -300,7 +301,7 @@ class BookingViewController: UIViewController {
             UserDefaults.standard.set(guestRIDs, forKey: "rid")
         }
     }
-    
+    // delete customer records and return success message
     func databaseDeleteCustomer(customer: Customer) -> Bool {
         let rid = customer.getRID()
         let coordinator = MySQLStoreCoordinator(configuration: user)
@@ -332,6 +333,7 @@ class BookingViewController: UIViewController {
             return false
         }
     }
+    // check if a date String is out of date()today
     func isOutOfDate(inDate: String) -> Bool {
         let currentDate = Calendar.current.startOfDay(for: Date())
         let dateFormatter = DateFormatter()
@@ -344,6 +346,7 @@ class BookingViewController: UIViewController {
         
         return true // Return true if the input date cannot be parsed
     }
+    // fetch data base on provided rids of guest user
     func guestFetchDataFromDatabase(RIDs: [Int]) -> Bool{
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
@@ -387,6 +390,7 @@ class BookingViewController: UIViewController {
             return false
         }
     }
+    // fetch all customer records based on date and timeslot
     func adminFetchDataFromDatabase(viewingDate: String, selectedTimeSlot: String) -> Bool{
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
@@ -436,16 +440,7 @@ class BookingViewController: UIViewController {
         }
         
     }
-
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let customerDetailView = segue.destination as! CustomerDetailViewController
-        if let indexPath = bookingTableView.indexPathForSelectedRow {
-            selectedTimeSlot = timeSlots[indexPath.row]
-        }
-        customerDetailView.timeSlot = selectedTimeSlot!
-    }
-    
+    // dropped function 
     static public func addCustomer(customer: Customer) {
         self.customers.append(customer)
     }
