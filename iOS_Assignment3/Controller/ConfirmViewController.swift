@@ -48,24 +48,60 @@ class ConfirmViewController: UIViewController {
     
     @objc func confirmButtonTapped() {
         view.isUserInteractionEnabled = false
+        
+        // Add a container view for the activity indicator with a border
+        let containerWidth: CGFloat = 80
+        let containerHeight: CGFloat = 80
+        let containerView = UIView(frame: CGRect(x: (view.bounds.width - containerWidth) / 2, y: (view.bounds.height - containerHeight) / 2, width: containerWidth, height: containerHeight))
+        containerView.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        containerView.layer.cornerRadius = 10
+        containerView.layer.borderWidth = 1
+        containerView.layer.borderColor = UIColor.gray.cgColor
+        view.addSubview(containerView)
+        
+        // Add the activity indicator
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.center = CGPoint(x: containerView.bounds.width / 2, y: containerView.bounds.height / 2)
+        containerView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
         if let customer = createCustomer() {
-            if databaseCreateCustomer(customer: customer) {
-                navigationController?.popToRootViewController(animated: true)
-            } else {
-                let alert = UIAlertController(
-                    title: "Error", message: "Failed to create customer", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                present(alert, animated: true)
-                view.isUserInteractionEnabled = true
+            DispatchQueue.global(qos: .userInitiated).async {
+                let success = self.databaseCreateCustomer(customer: customer)
+                
+                DispatchQueue.main.async {
+                    activityIndicator.stopAnimating()
+                    activityIndicator.removeFromSuperview()
+                    
+                    if success {
+                        let successAlert = UIAlertController(
+                            title: "Success", message: "You've placed your booking successfully", preferredStyle: .alert)
+                        successAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                            containerView.removeFromSuperview()
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }))
+                        self.present(successAlert, animated: true)
+                    } else {
+                        let errorAlert = UIAlertController(
+                            title: "Error", message: "Failed to book, please try again", preferredStyle: .alert)
+                        errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(errorAlert, animated: true)
+                        self.view.isUserInteractionEnabled = true
+                    }
+                }
             }
         } else {
-            let alert = UIAlertController(
+            activityIndicator.stopAnimating()
+            activityIndicator.removeFromSuperview()
+            
+            let errorAlert = UIAlertController(
                 title: "Error", message: "Failed to create customer", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alert, animated: true)
+            errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(errorAlert, animated: true)
             view.isUserInteractionEnabled = true
         }
     }
+
     func databaseCreateCustomer(customer: Customer) -> Bool {
         let name = customer.getName()
         let phoneNumber = customer.getPhoneNumber()

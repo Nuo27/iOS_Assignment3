@@ -117,13 +117,46 @@ class BookingViewController: UIViewController {
         viewingDate = getLocalDate(date: sender.date)
     }
     @objc func refreshButtonTapped() {
-        if (isAdmin) {
-            adminFetchDataFromDatabase(viewingDate: viewingDate, selectedTimeSlot: selectedTimeSlot!)
+        // Create an alert to display before refreshing
+        var alert = UIAlertController()
+        if !isAdmin {
+            alert = UIAlertController(title: "Fetch Data", message: "You are retrieving your history orders", preferredStyle: .alert)
         }
         else{
-            guestFetchDataFromDatabase(RIDs: RIDs!)
+            alert = UIAlertController(title: "Fetch Data", message: "You are retrieving all booking orders", preferredStyle: .alert)
         }
+        
+        // Add an action to confirm the refresh
+        let confirmAction = UIAlertAction(title: "Fetch", style: .default) { (_) in
+            // Disable user interaction while refreshing
+            self.view.isUserInteractionEnabled = false
+            self.refreshButton.isEnabled = false
+            
+            var success = false
+            if self.isAdmin {
+                success = self.adminFetchDataFromDatabase(viewingDate: self.viewingDate, selectedTimeSlot: self.selectedTimeSlot!)
+            } else {
+                success = self.guestFetchDataFromDatabase(RIDs: self.RIDs!)
+            }
+            
+            // Enable user interaction
+            self.view.isUserInteractionEnabled = true
+            
+            if success {
+                print("Data fetched successfully")
+            } else {
+                print("Failed to Fetch data")
+            }
+            
+            self.refreshButton.isEnabled = true
+        }
+        // Add actions to the alert
+        alert.addAction(confirmAction)
+        // Present the alert
+        self.present(alert, animated: true, completion: nil)
     }
+
+
     @objc func timeSlotButtonTapped() {
         let alertController = UIAlertController(title: "Select a Time", message: nil, preferredStyle: .actionSheet)
         
@@ -172,7 +205,7 @@ class BookingViewController: UIViewController {
             }
             else{
                 message = """
-        --TODAY"S BOOKING--
+        --TODAY'S BOOKING--
         RID: \(rid)
         Name: \(name)
         Phone Number: \(phoneNumber)
@@ -212,31 +245,52 @@ class BookingViewController: UIViewController {
         // Disable user interaction while deleting
         view.isUserInteractionEnabled = false
         
-        if databaseDeleteCustomer(customer: selectedCustomer!) {
-            print("Successfully deleted")
-            //fetchDataFromDatabase()
-            
-            // Show success notification
-            let successAlertController = UIAlertController(
-                title: "Success", message: "Customer deleted successfully.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            successAlertController.addAction(okAction)
-            present(successAlertController, animated: true, completion: nil)
-        } else {
-            print("Failed to delete customer")
-            
-            // Show error notification
-            let errorAlertController = UIAlertController(
-                title: "Error", message: "Failed to delete customer.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            errorAlertController.addAction(okAction)
-            present(errorAlertController, animated: true, completion: nil)
-        }
+        // Add a container view for the activity indicator with a border
+        let containerWidth: CGFloat = 80
+        let containerHeight: CGFloat = 80
+        let containerView = UIView(frame: CGRect(x: (view.bounds.width - containerWidth) / 2, y: (view.bounds.height - containerHeight) / 2, width: containerWidth, height: containerHeight))
+        containerView.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        containerView.layer.cornerRadius = 10
+        containerView.layer.borderWidth = 1
+        containerView.layer.borderColor = UIColor.gray.cgColor
+        view.addSubview(containerView)
         
-        // Enable user interaction after deletion is complete
-        view.isUserInteractionEnabled = true
-        deleteButton.isEnabled = false
+        // Add the activity indicator
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.center = CGPoint(x: containerView.bounds.width / 2, y: containerView.bounds.height / 2)
+        containerView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
+        DispatchQueue.main.async {
+            if self.databaseDeleteCustomer(customer: self.selectedCustomer!) {
+                print("Successfully deleted")
+                
+                // Show success notification
+                let successAlertController = UIAlertController(
+                    title: "Success", message: "Customer deleted successfully.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                successAlertController.addAction(okAction)
+                self.present(successAlertController, animated: true, completion: nil)
+            } else {
+                print("Failed to delete customer")
+                
+                // Show error notification
+                let errorAlertController = UIAlertController(
+                    title: "Error", message: "Failed to delete customer.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                errorAlertController.addAction(okAction)
+                self.present(errorAlertController, animated: true, completion: nil)
+            }
+            
+            // Enable user interaction after deletion is complete
+            self.view.isUserInteractionEnabled = true
+            self.deleteButton.isEnabled = false
+            
+            // Remove the indicator
+            containerView.removeFromSuperview()
+        }
     }
+
     func removeGuestRIDFromUserDefaults(_ rid: Int) {
         var guestRIDs = UserDefaults.standard.array(forKey: "rid") as? [Int] ?? []
         
@@ -264,13 +318,13 @@ class BookingViewController: UIViewController {
             print("Customer deleted from the database.")
             removeGuestRIDFromUserDefaults(rid)
             if(isAdmin){
-                adminFetchDataFromDatabase(viewingDate: viewingDate, selectedTimeSlot: selectedTimeSlot!)
+                coordinator.disconnect()
+                return adminFetchDataFromDatabase(viewingDate: viewingDate, selectedTimeSlot: selectedTimeSlot!)
             }
             else{
-                guestFetchDataFromDatabase(RIDs: RIDs!)
+                coordinator.disconnect()
+                return guestFetchDataFromDatabase(RIDs: RIDs!)
             }
-            coordinator.disconnect()
-            return true
         } catch {
             print("Cannot execute the query.")
             coordinator.disconnect()
@@ -289,13 +343,7 @@ class BookingViewController: UIViewController {
         
         return true // Return true if the input date cannot be parsed
     }
-    func guestFetchDataFromDatabase(RIDs: [Int]) {
-        // Show loading indicator
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.center = self.view.center
-        activityIndicator.startAnimating()
-        self.view.addSubview(activityIndicator)
-        
+    func guestFetchDataFromDatabase(RIDs: [Int]) -> Bool{
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
         if coordinator.connect() {
@@ -308,59 +356,37 @@ class BookingViewController: UIViewController {
         let ridsString = RIDs.map { String($0) }.joined(separator: ",")
         let selectString = "SELECT * FROM customer WHERE RID IN (\(ridsString));"
         let selectRequest = MySQLQueryRequest(query: selectString)
-        
-        DispatchQueue.global(qos: .userInitiated).async { [weak self, weak activityIndicator] in
-            guard let self = self else { return }
+        do {
+            let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
+            BookingViewController.customers.removeAll()
             
-            do {
-                let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
-                BookingViewController.customers.removeAll()
-                
-                for row in result {
-                    if let rid = row["RID"] as? Int,
-                       let name = row["name"] as? String,
-                       let phoneNumber = row["phonenumber"] as? String,
-                       let emailAddress = row["emailaddress"] as? String,
-                       let partySize = row["partysize"] as? Int,
-                       let timeSlot = row["timeslot"] as? String,
-                       let date = row["date"] as? String
-                    {
-                        let customer = Customer(rid: rid, name: name, phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: partySize, timeSlot: timeSlot, date: date)
-                        print(rid)
-                        // Add the fetched customer to the local array
-                        BookingViewController.addCustomer(customer: customer)
-                    }
-                }
-                
-                print("Data fetched from the database.")
-                
-                DispatchQueue.main.async {
-                    // Hide loading indicator
-                    activityIndicator?.stopAnimating()
-                    activityIndicator?.removeFromSuperview()
-                    
-                    self.bookingTableView.reloadData()
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    // Hide loading indicator
-                    activityIndicator?.stopAnimating()
-                    activityIndicator?.removeFromSuperview()
-                    
-                    print("Cannot execute the query.")
+            for row in result {
+                if let rid = row["RID"] as? Int,
+                   let name = row["name"] as? String,
+                   let phoneNumber = row["phonenumber"] as? String,
+                   let emailAddress = row["emailaddress"] as? String,
+                   let partySize = row["partysize"] as? Int,
+                   let timeSlot = row["timeslot"] as? String,
+                   let date = row["date"] as? String
+                {
+                    let customer = Customer(rid: rid, name: name, phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: partySize, timeSlot: timeSlot, date: date)
+                    print(rid)
+                    // Add the fetched customer to the local array
+                    BookingViewController.addCustomer(customer: customer)
                 }
             }
-            
+            bookingTableView.reloadData()
+            print("Data fetched from the database.")
             coordinator.disconnect()
+            return true
+            
+        } catch {
+            print("Cannot execute the query.")
+            coordinator.disconnect()
+            return false
         }
     }
-    func adminFetchDataFromDatabase(viewingDate: String, selectedTimeSlot: String) {
-        // Show loading indicator
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.center = self.view.center
-        activityIndicator.startAnimating()
-        self.view.addSubview(activityIndicator)
-        
+    func adminFetchDataFromDatabase(viewingDate: String, selectedTimeSlot: String) -> Bool{
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
         print(viewingDate)
@@ -376,50 +402,38 @@ class BookingViewController: UIViewController {
         let selectString = "SELECT * FROM customer WHERE date = '\(viewingDate)' AND timeslot = '\(selectedTimeSlot)';"
         let selectRequest = MySQLQueryRequest(query: selectString)
         
-        DispatchQueue.global(qos: .userInitiated).async { [weak self, weak activityIndicator] in
-            guard let self = self else { return }
+        do {
+            let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
+            BookingViewController.customers.removeAll()
             
-            do {
-                let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
-                BookingViewController.customers.removeAll()
-                
-                for row in result {
-                    if let rid = row["RID"] as? Int,
-                       let name = row["name"] as? String,
-                       let phoneNumber = row["phonenumber"] as? String,
-                       let emailAddress = row["emailaddress"] as? String,
-                       let partySize = row["partysize"] as? Int,
-                       let timeSlot = row["timeslot"] as? String,
-                       let date = row["date"] as? String
-                    {
-                        let customer = Customer(rid: rid, name: name, phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: partySize, timeSlot: timeSlot, date: date)
-                        print(rid)
-                        // Add the fetched customer to the local array
-                        BookingViewController.addCustomer(customer: customer)
-                    }
-                }
-                
-                print("Data fetched from the database.")
-                
-                DispatchQueue.main.async {
-                    // Hide loading indicator
-                    activityIndicator?.stopAnimating()
-                    activityIndicator?.removeFromSuperview()
-                    
-                    self.bookingTableView.reloadData()
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    // Hide loading indicator
-                    activityIndicator?.stopAnimating()
-                    activityIndicator?.removeFromSuperview()
-                    
-                    print("Cannot execute the query.")
+            for row in result {
+                if let rid = row["RID"] as? Int,
+                   let name = row["name"] as? String,
+                   let phoneNumber = row["phonenumber"] as? String,
+                   let emailAddress = row["emailaddress"] as? String,
+                   let partySize = row["partysize"] as? Int,
+                   let timeSlot = row["timeslot"] as? String,
+                   let date = row["date"] as? String
+                {
+                    let customer = Customer(rid: rid, name: name, phoneNumber: phoneNumber, emailAddress: emailAddress, partySize: partySize, timeSlot: timeSlot, date: date)
+                    print(rid)
+                    // Add the fetched customer to the local array
+                    BookingViewController.addCustomer(customer: customer)
                 }
             }
             
+            print("Data fetched from the database.")
+            
+            bookingTableView.reloadData()
             coordinator.disconnect()
+            return true
+            
+        } catch {
+            print("Cannot execute the query.")
+            coordinator.disconnect()
+            return false
         }
+        
     }
 
     

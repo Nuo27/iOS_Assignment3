@@ -61,18 +61,42 @@ class DateViewController: UIViewController {
     }
     @objc func checkButtonTapped() {
         view.isUserInteractionEnabled = false
-        getSumPartySizeFromDB(date: selectedDate, timeSlot: selectedTimeSlot!) { totalPartySize in
-            print("Total party size: \(totalPartySize)")
-            self.mostAvailableSeats = self.timeSlotsCapacity-totalPartySize
-            self.messageLabel.text = "Selecting \(self.selectedTimeSlot!) on \(self.selectedDate), \(self.mostAvailableSeats) seats are available."
-            if(self.mostAvailableSeats > 0){
-                self.isAvailable = true
-                self.bookButton.isEnabled = true
-            }
-            else{
-                self.isAvailable = false
-                self.mostAvailableSeats = 0
-                self.bookButton.isEnabled = false
+        
+        // Add a container view for the activity indicator with a border
+        let containerWidth: CGFloat = 80
+        let containerHeight: CGFloat = 80
+        let containerView = UIView(frame: CGRect(x: (view.bounds.width - containerWidth) / 2, y: (view.bounds.height - containerHeight) / 2, width: containerWidth, height: containerHeight))
+        containerView.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        containerView.layer.cornerRadius = 10
+        containerView.layer.borderWidth = 1
+        containerView.layer.borderColor = UIColor.gray.cgColor
+        view.addSubview(containerView)
+        
+        // Add the activity indicator
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.center = CGPoint(x: containerView.bounds.width / 2, y: containerView.bounds.height / 2)
+        containerView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.getSumPartySizeFromDB(date: self.selectedDate, timeSlot: self.selectedTimeSlot!) { totalPartySize in
+                DispatchQueue.main.async {
+                    containerView.removeFromSuperview()
+                    self.view.isUserInteractionEnabled = true
+                    
+                    print("Total party size: \(totalPartySize)")
+                    self.mostAvailableSeats = self.timeSlotsCapacity - totalPartySize
+                    self.messageLabel.text = "Selecting \(self.selectedTimeSlot!) on \(self.selectedDate), \(self.mostAvailableSeats) seats are available."
+                    
+                    if self.mostAvailableSeats > 0 {
+                        self.isAvailable = true
+                        self.bookButton.isEnabled = true
+                    } else {
+                        self.isAvailable = false
+                        self.mostAvailableSeats = 0
+                        self.bookButton.isEnabled = false
+                    }
+                }
             }
         }
     }
@@ -108,12 +132,6 @@ class DateViewController: UIViewController {
         return localTime
     }
     func getSumPartySizeFromDB(date: String, timeSlot: String, completion: @escaping (Int) -> Void) {
-        // Show loading indicator
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.center = self.view.center
-        activityIndicator.startAnimating()
-        self.view.addSubview(activityIndicator)
-        
         let coordinator = MySQLStoreCoordinator(configuration: user)
         coordinator.encoding = .UTF8MB4
         
@@ -127,8 +145,8 @@ class DateViewController: UIViewController {
             let selectString = "SELECT SUM(partysize) AS totalPartySize FROM customer WHERE date = '\(date)' AND timeslot = '\(timeSlot)';"
             let selectRequest = MySQLQueryRequest(query: selectString)
             
-            DispatchQueue.global(qos: .userInitiated).async { [weak self, weak activityIndicator] in
-                guard let self = self else { return }
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard self != nil else { return }
                 
                 do {
                     let result = try MySQLContainer.shared.mainQueryContext?.executeQueryRequestAndFetchResult(selectRequest) ?? []
@@ -142,40 +160,27 @@ class DateViewController: UIViewController {
                     
                     print("Data fetched from the database.")
                     
-                    DispatchQueue.main.async {
-                        // Hide loading indicator
-                        activityIndicator?.stopAnimating()
-                        activityIndicator?.removeFromSuperview()
-                        
-                        // Call the completion handler with the fetched result
-                        completion(totalPartySizeForTimeSlot)
-                        self.view.isUserInteractionEnabled = true
-                    }
+                    // Call the completion handler with the fetched result
+                    completion(totalPartySizeForTimeSlot)
                 } catch {
-                    DispatchQueue.main.async {
-                        // Hide loading indicator
-                        activityIndicator?.stopAnimating()
-                        activityIndicator?.removeFromSuperview()
-                        
-                        print("Cannot execute the query.")
-                        
-                        // Call the completion handler with a default value or error indicator
-                        completion(0)
-                        self.view.isUserInteractionEnabled = true
-                    }
+                    print("Cannot execute the query.")
+                    
+                    // Call the completion handler with a default value or error indicator
+                    completion(0)
                 }
                 
                 coordinator.disconnect()
-                
             }
         } else {
             print("Failed to connect to the database.")
             
             // Call the completion handler with a default value or error indicator
             completion(0)
+            
             view.isUserInteractionEnabled = true
         }
     }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let customerDetailView = segue.destination as! CustomerDetailViewController
         customerDetailView.mostPartySize = mostAvailableSeats
