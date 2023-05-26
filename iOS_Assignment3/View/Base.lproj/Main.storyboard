@@ -327,6 +327,7 @@
                             <constraint firstItem="O9E-s4-Ib7" firstAttribute="leading" secondItem="NhC-oX-qvM" secondAttribute="trailing" constant="10" id="urI-cd-6e3"/>
                             <constraint firstItem="n3r-nZ-cPV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rtS-Se-62i" secondAttribute="trailing" constant="8" symbolic="YES" id="vNL-MT-zBe"/>
                             <constraint firstItem="NhC-oX-qvM" firstAttribute="top" secondItem="sE3-WY-djy" secondAttribute="bottom" constant="10" id="z0a-sP-nhm"/>
+                            <constraint firstItem="ubC-Sh-MT0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sE3-WY-djy" secondAttribute="trailing" constant="8" symbolic="YES" id="zWK-15-dci"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3LH-sk-Tnb"/>

@@ -255,10 +255,10 @@ class BookingViewController: UIViewController {
     }
     @objc func refreshButtonTapped() {
         let alertController = UIAlertController(
-            title: "Fetching Data", message: "You are fetching data now",
+            title: "Fetching", message: "You are fetching booking records now",
             preferredStyle: .alert)
         
-        let fetchAction = UIAlertAction(title: "Fetch", style: .default) { _ in
+        let fetchAction = UIAlertAction(title: "Lets go!", style: .default) { _ in
             self.fetchCustomer()
         }
         alertController.addAction(fetchAction)
@@ -293,7 +293,7 @@ class BookingViewController: UIViewController {
                     activityIndicator.stopAnimating()
                     containerView.removeFromSuperview()
                 } else {
-                    print("Failed to delete customer")
+                    print("Failed to fetch customer")
                     
                     // Show error notification
                     let errorAlertController = UIAlertController(
