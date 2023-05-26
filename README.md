@@ -8,9 +8,37 @@ The GitHub repository link for the project is: https://github.com/Nuo27/iOS_Assi
 
 The presentation video is in the repo root folder, [nuo_13945466_a3.mp4](https://github.com/Nuo27/iOS_Assignment3/blob/main/nuo_13945466_a3.mp4)
 
-After submission, the project will be set to public for review and evaluation.
+### After submission, this repo will be set to public for review and evaluation.
 
-After mark is released, the connection to the database will be closed.  
+### After mark is released, the connection to the database will be closed.
+
+---
+
+- [2023 iOS Dev Assignment3 repo](#2023-ios-dev-assignment3-repo)
+  - [After submission, this repo will be set to public for review and evaluation.](#after-submission-this-repo-will-be-set-to-public-for-review-and-evaluation)
+  - [After mark is released, the connection to the database will be closed.](#after-mark-is-released-the-connection-to-the-database-will-be-closed)
+  - [Plz notify that](#plz-notify-that)
+    - [I used a free online database as the backend support, this app might be running slow due to the physical distance between the database and the app.](#i-used-a-free-online-database-as-the-backend-support-this-app-might-be-running-slow-due-to-the-physical-distance-between-the-database-and-the-app)
+    - [I would recommend you to ping db4free.net to check the delay](#i-would-recommend-you-to-ping-db4freenet-to-check-the-delay)
+  - [Introduction](#introduction)
+  - [Basic Build info and Usage](#basic-build-info-and-usage)
+    - [Build](#build)
+    - [Usage](#usage)
+  - [Features](#features)
+    - [Customer](#customer)
+    - [Staff](#staff)
+    - [Functions](#functions)
+  - [Iteration product design cycle](#iteration-product-design-cycle)
+    - [Iteration 1: May 7th - May 14th](#iteration-1-may-7th---may-14th)
+    - [Iteration 2: May 14th - May 16th](#iteration-2-may-14th---may-16th)
+    - [Iteration 3: May 16th - May 23th](#iteration-3-may-16th---may-23th)
+    - [Iteration 4: may 23th - May 25th](#iteration-4-may-23th---may-25th)
+    - [Assignment due date: 2023-05-26](#assignment-due-date-2023-05-26)
+  - [Used external tools](#used-external-tools)
+    - [Cocoapods:](#cocoapods)
+    - [OHMySQL:](#ohmysql)
+    - [db4free:](#db4free)
+  - [Copyright](#copyright)
 
 ---
 
@@ -31,16 +59,19 @@ alternative, you can run the app on backup or your own database
 I've also created a backup database, refer to [Usage](#usage) in case the original database is closed/too slow. You can access it, by changing the user configuration in BookingViewController.swift, DateViewController.swift, ConfirmViewController.swift
 
 **If using own database:**
+
 ```
 let user = MySQLConfiguration(
-  user: "your user name", 
-  password: "your password", 
-  serverName: "ip/localhost", 
+  user: "your user name",
+  password: "your password",
+  serverName: "ip/localhost",
   dbName: "your database name",
-  port: 3306, 
+  port: 3306,
   socket: "/mysql/mysql.sock")
 ```
+
 and create a table with the following structure
+
 ```
 CREATE TABLE `customer` (
   `RID` int(11) NOT NULL AUTO_INCREMENT,
@@ -51,11 +82,10 @@ CREATE TABLE `customer` (
   `partySize` int(11) NOT NULL,
   `date` varchar(255) NOT NULL,
   PRIMARY KEY (`RID`)
-) 
-AUTO_INCREMENT=1 
-DEFAULT CHARSET=utf8mb4 
+)
+AUTO_INCREMENT=1
+DEFAULT CHARSET=utf8mb4
 ```
-#### Assignment due date: 2023-05-26
 
 --- **issue might triggered when ios version is different** ---
 
@@ -66,40 +96,16 @@ The correct path should be: ~/iOS_Assignment3/Pods/OHMySQL/lib/MySQL.xcframework
 This is because the modification of OHMYSQL Cocoapods implementation
 
 try:
+
 1. Root Folder ->modify the podfile to ur target ios version
-2. run ```$ pop update update``` in terminal
+2. run `$ pop update update` in terminal
 3. Product ->clean and build
 
 if still not working:
+
 1. clean the cocoapods implementation and re-install it
 2. Implement the OHMYSQL manually, follow [Cocoapods:](#cocoapods)
 3. link the arm64 build on build settings manually
-
----
-
-## CONTENTS OF THIS FILE
-
-- [2023 iOS Dev Assignment3 repo](#2023-ios-dev-assignment3-repo)
-  - [Plz notify that](#plz-notify-that)
-  - [CONTENTS OF THIS FILE](#contents-of-this-file)
-  - [Introduction](#introduction)
-  - [Basic Build info and Usage](#basic-build-info-and-usage)
-    - [Build](#build)
-    - [Usage](#usage)
-  - [Features](#features)
-    - [Customer](#customer)
-    - [Staff](#staff)
-    - [Functions](#functions)
-  - [Iteration product design cycle](#iteration-product-design-cycle)
-    - [Iteration 1: May 7th - May 14th](#iteration-1-may-7th---may-14th)
-    - [Iteration 2: May 14th - May 16th](#iteration-2-may-14th---may-16th)
-    - [Iteration 3: May 16th - May 23th](#iteration-3-may-16th---may-23th)
-    - [Iteration 4: may 23th - May 25th](#iteration-4-may-23th---may-25th)
-  - [Used external tools](#used-external-tools)
-    - [Cocoapods:](#cocoapods)
-    - [OHMySQL:](#ohmysql)
-    - [db4free:](#db4free)
-  - [Copyright](#copyright)
 
 ---
 
@@ -141,21 +147,23 @@ Database:
 
 ```
 user = MySQLConfiguration(
-  user: "grouphd", 
-  password: "grouphd1", 
-  serverName: "db4free.net", 
+  user: "grouphd",
+  password: "grouphd1",
+  serverName: "db4free.net",
   dbName: "iosgroupass",
-  port: 3306, 
+  port: 3306,
   socket: "/mysql/mysql.sock")
 ```
+
 backup database
+
 ```
 backupuser = MySQLConfiguration(
-  user: "epiz_34282737", 
-  password: "IPREzbZobF", 
-  serverName: "sql109.epizy.com", 
-  dbName: "epiz_34282737_iosassignment", 
-  port: 3306, 
+  user: "epiz_34282737",
+  password: "IPREzbZobF",
+  serverName: "sql109.epizy.com",
+  dbName: "epiz_34282737_iosassignment",
+  port: 3306,
   socket: "/mysql/mysql.sock")
 ```
 
@@ -174,7 +182,7 @@ backupuser = MySQLConfiguration(
 
 #### Staff
 
-- Login with admin ID and password
+- Login/Logout with admin username and password
 - Select Date and time Slot
 - View all booking records
 - View any record with its details
@@ -182,13 +190,12 @@ backupuser = MySQLConfiguration(
 
 #### Functions
 
-- Settings -> view local stored Receipts ID
-- Settings -> clear all local stored Receipts ID
-- input validation null check
-- Input validation for Name -> only accept letters and no space included
-- Input validation for Phone -> 10-digit number only
-- Input validation for Email -> email format only
+- manage local store receipts ID
+- input validation null check and format check
 - auto-adjust partySize according to the availability but limited to 10
+- edit admin account details
+- previours filled details
+- auto fetch data
 - etc...
 
 ---
@@ -241,6 +248,12 @@ where the overall length of project is about 20 days.
 - implement UI visual
 - test and debug
 - update final readme.md and presentation
+- submit
+
+#### Assignment due date: 2023-05-26
+
+- presentation done
+- readme.md updated
 - submit
 
 ---
