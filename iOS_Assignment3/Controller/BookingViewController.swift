@@ -380,7 +380,7 @@ class BookingViewController: UIViewController {
             }
             else{
                 message = """
-        --TODAY'S BOOKING--
+        --UPCOMING BOOKING--
         RID: \(rid)
         Name: \(name)
         Phone Number: \(phoneNumber)
@@ -408,7 +408,7 @@ class BookingViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: "Yes", style: .destructive) { _ in
             self.deleteCustomer()
         }
         alertController.addAction(deleteAction)
@@ -438,11 +438,11 @@ class BookingViewController: UIViewController {
         
         DispatchQueue.main.async {
             if self.databaseDeleteCustomer(customer: self.selectedCustomer!) {
-                print("Successfully deleted")
+                print("Successfully cancelled")
                 
                 // Show success notification
                 let successAlertController = UIAlertController(
-                    title: "Success", message: "Customer deleted successfully.", preferredStyle: .alert)
+                    title: "Success", message: "Booking cancelled successfully.", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 successAlertController.addAction(okAction)
                 self.present(successAlertController, animated: true, completion: nil)
@@ -451,7 +451,7 @@ class BookingViewController: UIViewController {
                 
                 // Show error notification
                 let errorAlertController = UIAlertController(
-                    title: "Error", message: "Failed to delete customer.", preferredStyle: .alert)
+                    title: "Error", message: "Failed to cancel booking.", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 errorAlertController.addAction(okAction)
                 self.present(errorAlertController, animated: true, completion: nil)

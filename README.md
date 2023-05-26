@@ -6,7 +6,7 @@ The assignment focuses on developing an online booking app for restaurants and *
 
 The GitHub repository link for the project is: https://github.com/Nuo27/iOS_Assignment3
 
-The presentation video is in the repo root folder. (not yet)
+The presentation video is in the repo root folder, [nuo_13945466_a3.mp4](https://github.com/Nuo27/iOS_Assignment3/blob/main/nuo_13945466_a3.mp4)
 
 After submission, the project will be set to public for review and evaluation.
 
